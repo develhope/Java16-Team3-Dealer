@@ -15,9 +15,18 @@ public class AcquirenteController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
-    @Operation(summary = "Questo metodo restituisci gli ordini fatti dall'utente")
-    @GetMapping("/getorders")
+    @Operation(summary = "Questo metodo restituisce gli ordini fatti dall'utente")
+    @GetMapping("/getordini")
     public void getOrders() {
+
+    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+    })
+    @Operation(summary = "Questo metodo restituisce i noleggi fatti dall'utente")
+    @GetMapping("/getnoleggi")
+    public void getnoleggi() {
 
     }
 }
