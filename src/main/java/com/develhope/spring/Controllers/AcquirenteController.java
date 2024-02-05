@@ -29,4 +29,13 @@ public class AcquirenteController {
     public void getnoleggi() {
 
     }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+    })
+    @Operation(summary = "Questo metodo restituisce gli acquisti fatti dall'utente")
+    @GetMapping("/getacquisti")
+    public void getacquisti() {
+
+    }
 }
