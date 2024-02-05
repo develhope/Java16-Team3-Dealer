@@ -99,4 +99,13 @@ public class AcquirenteController {
     public void cancellaNoleggioId() {
 
     }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "PASSWORD SBAGLIATA")
+    })
+    @Operation(summary = "Questo metodo permette all'utente di cancellare il proprio account")
+    @DeleteMapping("/cancellautente")
+    public void cancellaUtente() {
+
+    }
 }
