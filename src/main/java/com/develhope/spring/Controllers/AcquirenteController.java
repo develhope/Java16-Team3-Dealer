@@ -79,6 +79,15 @@ public class AcquirenteController {
     @Operation(summary = "Questo metodo permette di modificare i dati dell'utente")
     @PatchMapping("/modificautente")
     public void modificaDatiUtente() {
-        
+
+    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "ORDINE NON TROVATO CON QUELL'ID")
+    })
+    @Operation(summary = "Questo metodo permette di cancellare un ordine tramite id")
+    @DeleteMapping("/cancellaordine/{id}")
+    public void cancellaOrdineId() {
+
     }
 }
