@@ -38,4 +38,13 @@ public class AcquirenteController {
     public void getacquisti() {
 
     }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "VEICOLO NON TROVATO CON QUELL'ID")
+    })
+    @Operation(summary = "Questo metodo restituisce i dettagli di un veicolo specifico per id")
+    @GetMapping("/getveicolo/{id}")
+    public void getveicoloid() {
+
+    }
 }
