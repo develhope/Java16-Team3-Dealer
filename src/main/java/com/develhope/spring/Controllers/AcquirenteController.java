@@ -61,6 +61,15 @@ public class AcquirenteController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
+    @Operation(summary = "Questo metodo permette di effettuare un ordine di un veicolo disponibile")
+    @PostMapping("/creazioneordine")
+    public void creaOrdine() {
+        // veicolo deve essere disponibile
+    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+    })
     @Operation(summary = "Questo metodo permette di effettuare un acquisto di un veicolo disponibile")
     @PostMapping("/creazioneacquisto")
     public void creaAcquisto() {
