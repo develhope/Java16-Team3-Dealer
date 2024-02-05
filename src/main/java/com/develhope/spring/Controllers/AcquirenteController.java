@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +27,7 @@ public class AcquirenteController {
     })
     @Operation(summary = "Questo metodo restituisce i noleggi fatti dall'utente")
     @GetMapping("/getnoleggi")
-    public void getnoleggi() {
+    public void getNoleggi() {
 
     }
     @ApiResponses(value = {
@@ -35,7 +36,7 @@ public class AcquirenteController {
     })
     @Operation(summary = "Questo metodo restituisce gli acquisti fatti dall'utente")
     @GetMapping("/getacquisti")
-    public void getacquisti() {
+    public void getAcquisti() {
 
     }
     @ApiResponses(value = {
@@ -44,7 +45,25 @@ public class AcquirenteController {
     })
     @Operation(summary = "Questo metodo restituisce i dettagli di un veicolo specifico per id")
     @GetMapping("/getveicolo/{id}")
-    public void getveicoloid() {
+    public void getVeicoloId() {
 
+    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+    })
+    @Operation(summary = "Questo metodo permette di effettuare un noleggio")
+    @PostMapping("/creazionenoleggio")
+    public void creaNoleggio() {
+
+    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+    })
+    @Operation(summary = "Questo metodo permette di effettuare un acquisto di un veicolo disponibile")
+    @PostMapping("/creazioneacquisto")
+    public void creaAcquisto() {
+        // veicolo deve essere disponibile
     }
 }
