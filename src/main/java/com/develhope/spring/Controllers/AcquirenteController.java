@@ -90,4 +90,13 @@ public class AcquirenteController {
     public void cancellaOrdineId() {
 
     }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "NOLEGGIO NON TROVATO CON QUELL'ID")
+    })
+    @Operation(summary = "Questo metodo permette di cancellare un noleggio tramite id")
+    @DeleteMapping("/cancellanoleggio/{id}")
+    public void cancellaNoleggioId() {
+
+    }
 }
