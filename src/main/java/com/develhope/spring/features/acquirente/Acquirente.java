@@ -1,4 +1,4 @@
-package com.example.TeamProject3.Entities;
+package com.develhope.spring.features.acquirente;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Utente {
+public class Acquirente  {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long acquirente_id;
     @Column(nullable = false)
     private String nome;
     @Column(nullable = false)
@@ -22,5 +22,6 @@ public class Utente {
     private String email;
     @Column(nullable = false)
     private String password;
-
+    @Column(nullable = false)
+    private long telefono;
 }
