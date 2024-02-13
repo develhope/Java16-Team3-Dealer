@@ -1,4 +1,4 @@
-package com.example.TeamProject3.Entities;
+package com.develhope.spring.features.veicolo;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,32 +26,21 @@ enum StatoVeicolo{
 @AllArgsConstructor
 public class Veicolo {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long veicolo_id;
     private String modello;
-    @Column(nullable = false)
-    private long cilindrata;
-    @Column(nullable = false)
+    private Long cilindrata;
     private String colore;
-    @Column(nullable = false)
     private int potenza;
-    @Column(nullable = false)
     private String tipoCambio;
-    @Column(nullable = false)
-    private OffsetDateTime annoMatricolazione;
-    @Column(nullable = false)
+   // private OffsetDateTime annoMatricolazione;
     private String alimentazione; //idrogeno!
-    @Column(nullable = false)
     private BigDecimal prezzo;
-    @Column(nullable = true)
     private int percentualeSconto; //EVENTUALE
-    @Column(nullable = true)
     private String optional; //EVENTUALI
-    @Column(nullable = false)
     private boolean nuovo;
-    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private Tipo tipo;
-    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private StatoVeicolo stato;
 }
