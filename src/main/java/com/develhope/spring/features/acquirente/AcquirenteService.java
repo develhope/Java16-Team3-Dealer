@@ -1,5 +1,7 @@
 package com.develhope.spring.features.acquirente;
 
+import com.develhope.spring.features.noleggio.Noleggio;
+import com.develhope.spring.features.noleggio.NoleggioRepository;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoRepository;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoService;
 import com.develhope.spring.features.ordiniAcquisti.OrdineOAcquisto;
@@ -27,8 +29,10 @@ public class AcquirenteService {
 
     @Autowired
     private OrdineAcquistoService ordineAcquistoService;
+    @Autowired
+    private NoleggioRepository noleggioRepository;
 
-    public ResponseEntity creaOrdine(Long id, BigDecimal anticipo, boolean pagato) {// andrebbe in ordineService
+    public ResponseEntity creaOrdine(Long id, BigDecimal anticipo, boolean pagato) {
         Optional<Veicolo> veicoloCheck = veicoloRepository.findById(id);
         if (ordineAcquistoService.checkVeicolo(id).equals(ResponseEntity.status(HttpStatus.OK).body("Veicolo disponibile"))) {
             OrdineOAcquisto nuovoOrdine = new OrdineOAcquisto();
@@ -59,6 +63,21 @@ public class AcquirenteService {
             nuovoAcquisto.setStato(StatoOrdine.IN_LAVORAZIONE);
             ordineAcquistoRepository.saveAndFlush(nuovoAcquisto);
             return ResponseEntity.status(HttpStatus.OK).body(nuovoAcquisto);
+        } else{
+            return ordineAcquistoService.checkVeicolo(id);
+        }
+    }
+    public ResponseEntity creaNoleggio(Long id, boolean pagato) {
+        Optional<Veicolo> veicoloCheck = veicoloRepository.findById(id);
+        if (ordineAcquistoService.checkVeicolo(id).equals(ResponseEntity.status(HttpStatus.OK).body("Veicolo disponibile"))) {
+            Noleggio nuovoNoleggio = new Noleggio();
+            nuovoNoleggio.setVeicolo(veicoloCheck.get());
+//            nuovoOrdine.setAcquirente();
+//            nuovoOrdine.setVenditore();
+            nuovoNoleggio.setPagato(pagato);
+            veicoloCheck.get().setStato(StatoVeicolo.NON_DISPONIBILE);
+            noleggioRepository.saveAndFlush(nuovoNoleggio);
+            return ResponseEntity.status(HttpStatus.OK).body(nuovoNoleggio);
         } else{
             return ordineAcquistoService.checkVeicolo(id);
         }

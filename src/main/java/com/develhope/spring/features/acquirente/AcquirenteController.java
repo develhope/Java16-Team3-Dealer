@@ -63,9 +63,9 @@ public class AcquirenteController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
     @Operation(summary = "Questo metodo permette di effettuare un noleggio")
-    @PostMapping("/creazionenoleggio")
-    public void creaNoleggio() {
-
+    @PostMapping("/veicolo/creaNoleggio/{veicoloId}")
+    public ResponseEntity creaNoleggio(@PathVariable Long veicoloId, @RequestParam boolean pagato) {
+        return acquirenteService.creaNoleggio(veicoloId, pagato);
     }
 
     @ApiResponses(value = {
