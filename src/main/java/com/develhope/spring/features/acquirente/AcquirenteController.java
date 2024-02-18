@@ -43,9 +43,9 @@ public class AcquirenteController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
     @Operation(summary = "Questo metodo restituisce gli acquisti fatti dall'utente")
-    @GetMapping("/getacquisti")
-    public void getAcquisti() {
-
+    @GetMapping("/iMieiAcquisti")
+    public List<OrdineOAcquisto> getAcquisti() {
+        return acquirenteService.findAllOrders();
     }
 
     @ApiResponses(value = {

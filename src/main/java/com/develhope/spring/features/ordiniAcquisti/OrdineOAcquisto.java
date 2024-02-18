@@ -22,7 +22,7 @@ public class OrdineOAcquisto {
     private BigDecimal anticipo;
     @Column(nullable = false)
     private boolean pagato;
-    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private StatoOrdine stato;
 
     @ManyToOne
