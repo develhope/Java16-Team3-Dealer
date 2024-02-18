@@ -19,8 +19,10 @@ public class Noleggio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long noleggio_id;
-//    private LocalDateTime inizioNoleggio;
-//    private LocalDateTime fineNoleggio;
+//    @Basic
+//    private OffsetDateTime inizioNoleggio;
+//    @Basic
+//    private OffsetDateTime fineNoleggio;
     private boolean pagato;
 
     @ManyToOne

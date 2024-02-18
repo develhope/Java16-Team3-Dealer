@@ -4,17 +4,9 @@ import com.develhope.spring.features.acquirente.Acquirente;
 import com.develhope.spring.features.veicolo.Veicolo;
 import com.develhope.spring.features.venditore.Venditore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
-
-enum StatoOrdine {
-    IN_ATTESA,
-    IN_LAVORAZIONE,
-    COMPLETATO
-}
 
 @Entity
 @Table
@@ -24,6 +16,7 @@ enum StatoOrdine {
 public class OrdineOAcquisto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long ordine_id;
     @Column(nullable = false)
     private BigDecimal anticipo;

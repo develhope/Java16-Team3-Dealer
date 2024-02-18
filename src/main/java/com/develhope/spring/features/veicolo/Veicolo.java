@@ -14,11 +14,7 @@ enum Tipo{
     SCOOTER,
     FURGONI
 }
-enum StatoVeicolo{
-    ORDINABILE,
-    ACQUISTABILE,
-    NON_DISPONIBILE
-}
+
 @Entity
 @Table
 @Data

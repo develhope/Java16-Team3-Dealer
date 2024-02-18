@@ -1,17 +1,22 @@
 package com.develhope.spring.features.acquirente;
 
+import com.develhope.spring.features.ordiniAcquisti.OrdineOAcquisto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 
 @RestController
 @RequestMapping("/autosalone/cliente")
 public class AcquirenteController {
     @Autowired
-    private AcquirenteService service;
+    private AcquirenteService acquirenteService;
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
@@ -21,6 +26,7 @@ public class AcquirenteController {
     public void getOrders() {
 
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
@@ -30,6 +36,7 @@ public class AcquirenteController {
     public void getNoleggi() {
 
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
@@ -39,6 +46,7 @@ public class AcquirenteController {
     public void getAcquisti() {
 
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "404", description = "VEICOLO NON TROVATO CON QUELL'ID")
@@ -48,6 +56,7 @@ public class AcquirenteController {
     public void getVeicoloId() {
 
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
@@ -57,15 +66,17 @@ public class AcquirenteController {
     public void creaNoleggio() {
 
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
     @Operation(summary = "Questo metodo permette di effettuare un ordine di un veicolo disponibile")
-    @PostMapping("/creazioneordine")
-    public void creaOrdine() {
-        // veicolo deve essere disponibile
+    @PostMapping("/veicolo/creaOrdine/{veicoloId}")
+    public ResponseEntity creaOrdine(@PathVariable Long veicoloId, @RequestParam BigDecimal anticipo, @RequestParam boolean pagato) {
+        return acquirenteService.creaOrdine(veicoloId, anticipo, pagato);
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
@@ -75,6 +86,7 @@ public class AcquirenteController {
     public void creaAcquisto() {
         // veicolo deve essere disponibile
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
@@ -84,6 +96,7 @@ public class AcquirenteController {
     public void modificaDatiUtente() {
 
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "404", description = "ORDINE NON TROVATO CON QUELL'ID")
@@ -93,6 +106,7 @@ public class AcquirenteController {
     public void cancellaOrdineId() {
 
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "404", description = "NOLEGGIO NON TROVATO CON QUELL'ID")
@@ -102,6 +116,7 @@ public class AcquirenteController {
     public void cancellaNoleggioId() {
 
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "PASSWORD SBAGLIATA")
