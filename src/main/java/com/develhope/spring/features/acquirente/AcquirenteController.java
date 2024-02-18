@@ -1,5 +1,6 @@
 package com.develhope.spring.features.acquirente;
 
+import com.develhope.spring.features.noleggio.Noleggio;
 import com.develhope.spring.features.ordiniAcquisti.OrdineOAcquisto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -34,8 +35,8 @@ public class AcquirenteController {
     })
     @Operation(summary = "Questo metodo restituisce i noleggi fatti dall'utente")
     @GetMapping("/getnoleggi")
-    public void getNoleggi() {
-
+    public List<Noleggio> getNoleggi() {
+        return acquirenteService.findAllRentals();
     }
 
     @ApiResponses(value = {
