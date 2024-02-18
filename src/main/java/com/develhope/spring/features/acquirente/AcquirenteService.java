@@ -82,4 +82,7 @@ public class AcquirenteService {
             return ordineAcquistoService.checkVeicolo(id);
         }
     }
+    public List<Noleggio> findAllRentals() {
+        return noleggioRepository.findAll();
+    }
 }
