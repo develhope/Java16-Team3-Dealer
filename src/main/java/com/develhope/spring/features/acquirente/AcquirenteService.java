@@ -47,4 +47,20 @@ public class AcquirenteService {
     public List<OrdineOAcquisto> findAllOrders() {
         return ordineAcquistoRepository.findAll();
     }
+    public ResponseEntity creaAcquisto(Long id, BigDecimal anticipo, boolean pagato){
+        Optional<Veicolo> veicoloCheck = veicoloRepository.findById(id);
+        if (ordineAcquistoService.checkVeicolo(id).equals(ResponseEntity.status(HttpStatus.OK).body("Veicolo disponibile"))) {
+            OrdineOAcquisto nuovoAcquisto = new OrdineOAcquisto();
+            nuovoAcquisto.setVeicolo(veicoloCheck.get());
+//            nuovoOrdine.setAcquirente();
+//            nuovoOrdine.setVenditore();
+            nuovoAcquisto.setAnticipo(anticipo);
+            nuovoAcquisto.setPagato(pagato);
+            nuovoAcquisto.setStato(StatoOrdine.IN_LAVORAZIONE);
+            ordineAcquistoRepository.saveAndFlush(nuovoAcquisto);
+            return ResponseEntity.status(HttpStatus.OK).body(nuovoAcquisto);
+        } else{
+            return ordineAcquistoService.checkVeicolo(id);
+        }
+    }
 }

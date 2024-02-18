@@ -83,9 +83,9 @@ public class AcquirenteController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
     @Operation(summary = "Questo metodo permette di effettuare un acquisto di un veicolo disponibile")
-    @PostMapping("/creazioneacquisto")
-    public void creaAcquisto() {
-        // veicolo deve essere disponibile
+    @PostMapping("/veicolo/creaAcquisto/{veicoloId}")
+    public ResponseEntity creaAcquisto(@PathVariable Long veicoloId, @RequestParam BigDecimal anticipo, @RequestParam boolean pagato) {
+        return acquirenteService.creaAcquisto(veicoloId, anticipo, pagato);
     }
 
     @ApiResponses(value = {
