@@ -2,6 +2,7 @@ package com.develhope.spring.features.acquirente;
 
 import com.develhope.spring.features.noleggio.Noleggio;
 import com.develhope.spring.features.ordiniAcquisti.OrdineOAcquisto;
+import com.develhope.spring.features.veicolo.Veicolo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -54,9 +56,9 @@ public class AcquirenteController {
             @ApiResponse(responseCode = "404", description = "VEICOLO NON TROVATO CON QUELL'ID")
     })
     @Operation(summary = "Questo metodo restituisce i dettagli di un veicolo specifico per id")
-    @GetMapping("/getveicolo/{id}")
-    public void getVeicoloId() {
-
+    @GetMapping("/getVeicolo/{id}")
+    public Optional<Veicolo> getVeicoloId(@PathVariable Long id) {
+        return acquirenteService.findById(id);
     }
 
     @ApiResponses(value = {

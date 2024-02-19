@@ -85,4 +85,7 @@ public class AcquirenteService {
     public List<Noleggio> findAllRentals() {
         return noleggioRepository.findAll();
     }
+    public Optional<Veicolo> findById(Long id){
+        return veicoloRepository.findById(id);
+    }
 }
