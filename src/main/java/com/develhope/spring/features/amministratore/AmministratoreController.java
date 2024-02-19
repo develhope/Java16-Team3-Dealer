@@ -3,6 +3,7 @@ package com.develhope.spring.features.amministratore;
 import com.develhope.spring.features.veicolo.StatoVeicolo;
 import com.develhope.spring.features.veicolo.Veicolo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -22,5 +23,9 @@ public class AmministratoreController {
     public Optional<Veicolo> modificaStatusID(@PathVariable Long id, @RequestParam StatoVeicolo stato){
         return service.modificaStatoVeicolo(id, stato);
 
+    }
+    @DeleteMapping("/veicolo/delete/{id}")
+    public ResponseEntity cancellaVeicoloId(@PathVariable Long id){
+        return service.cancellaVeicoloId(id);
     }
 }
