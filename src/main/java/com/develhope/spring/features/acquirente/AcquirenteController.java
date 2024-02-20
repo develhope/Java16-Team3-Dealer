@@ -107,8 +107,8 @@ public class AcquirenteController {
     })
     @Operation(summary = "Questo metodo permette di cancellare un ordine tramite id")
     @DeleteMapping("/cancellaordine/{id}")
-    public void cancellaOrdineId() {
-
+    public void cancellaOrdineId(@PathVariable long id) {
+        acquirenteService.deleteOrderById(id);
     }
 
     @ApiResponses(value = {
