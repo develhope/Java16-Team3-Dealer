@@ -117,8 +117,8 @@ public class AcquirenteController {
     })
     @Operation(summary = "Questo metodo permette di cancellare un noleggio tramite id")
     @DeleteMapping("/cancellanoleggio/{id}")
-    public void cancellaNoleggioId() {
-
+    public void cancellaNoleggioId(@PathVariable long id) {
+        acquirenteService.deleteRentalById(id);
     }
 
     @ApiResponses(value = {
