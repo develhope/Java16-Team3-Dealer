@@ -90,7 +90,11 @@ public class AcquirenteService {
     public List<Noleggio> findAllRentals() {
         return noleggioRepository.findAll();
     }
+    public void deleteRentalById(long id) {
+        noleggioRepository.deleteById(id);
+    }
     public Optional<Veicolo> findById(Long id){
         return veicoloRepository.findById(id);
     }
+
 }
