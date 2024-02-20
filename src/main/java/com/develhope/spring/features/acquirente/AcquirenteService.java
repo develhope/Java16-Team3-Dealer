@@ -51,6 +51,11 @@ public class AcquirenteService {
     public List<OrdineOAcquisto> findAllOrders() {
         return ordineAcquistoRepository.findAll();
     }
+
+    public void deleteOrderById(long id) {
+        ordineAcquistoRepository.deleteById(id);
+    }
+
     public ResponseEntity creaAcquisto(Long id, BigDecimal anticipo, boolean pagato){
         Optional<Veicolo> veicoloCheck = veicoloRepository.findById(id);
         if (ordineAcquistoService.checkVeicolo(id).equals(ResponseEntity.status(HttpStatus.OK).body("Veicolo disponibile"))) {
