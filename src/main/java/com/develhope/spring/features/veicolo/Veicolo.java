@@ -33,7 +33,7 @@ public class Veicolo {
     private String tipoCambio;
     @JsonFormat(pattern="yyyy")
     private Date annoImmatricolazione;
-    private String alimentazione; 
+    private String alimentazione;
     private BigDecimal prezzo;
     private int percentualeSconto; //EVENTUALE
     private String optional; //EVENTUALI
