@@ -1,7 +1,7 @@
 package com.develhope.spring.features.acquirente;
 
 import com.develhope.spring.features.noleggio.Noleggio;
-import com.develhope.spring.features.ordiniAcquisti.OrdineOAcquisto;
+import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
 import com.develhope.spring.features.veicolo.Veicolo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,15 +21,15 @@ public class AcquirenteController {
     @Autowired
     private AcquirenteService acquirenteService;
 
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
-    })
-    @Operation(summary = "Questo metodo restituisce gli ordini fatti dall'utente")
-    @GetMapping("/getordini")
-    public List<OrdineOAcquisto> getOrders() {
-        return acquirenteService.findAllOrders();
-    }
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "OK"),
+//            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+//    })
+//    @Operation(summary = "Questo metodo restituisce gli ordini fatti dall'utente")
+//    @GetMapping("/getordini")
+//    public List<OrdineAcquisto> getOrders() {
+//        return acquirenteService.findAllOrders();
+//    }
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -41,15 +41,15 @@ public class AcquirenteController {
         return acquirenteService.findAllRentals();
     }
 
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
-    })
-    @Operation(summary = "Questo metodo restituisce gli acquisti fatti dall'utente")
-    @GetMapping("/iMieiAcquisti")
-    public List<OrdineOAcquisto> getAcquisti() {
-        return acquirenteService.findAllOrders();
-    }
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "OK"),
+//            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+//    })
+//    @Operation(summary = "Questo metodo restituisce gli acquisti fatti dall'utente")
+//    @GetMapping("/iMieiAcquisti")
+//    public List<OrdineAcquisto> getAcquisti() {
+//        return acquirenteService.findAllOrders();
+//    }
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
