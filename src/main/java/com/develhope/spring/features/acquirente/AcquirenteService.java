@@ -22,77 +22,16 @@ import java.util.Optional;
 public class AcquirenteService {
     @Autowired
     private AcquirenteRepository acquirenteRepository;
-    @Autowired
-    private VeicoloRepository veicoloRepository;
-    @Autowired
-    private OrdineAcquistoRepository ordineAcquistoRepository;
-
-    @Autowired
-    private OrdineAcquistoService ordineAcquistoService;
-    @Autowired
-    private NoleggioRepository noleggioRepository;
-
-    public ResponseEntity creaOrdine(Long id, BigDecimal anticipo, boolean pagato) {
-        Optional<Veicolo> veicoloCheck = veicoloRepository.findById(id);
-        if (ordineAcquistoService.checkVeicolo(id).equals(ResponseEntity.status(HttpStatus.OK).body("Veicolo disponibile"))) {
-            OrdineAcquisto nuovoOrdine = new OrdineAcquisto();
-            nuovoOrdine.setVeicolo(veicoloCheck.get());
-//            nuovoOrdine.setAcquirente();
-//            nuovoOrdine.setVenditore();
-            nuovoOrdine.setAnticipo(anticipo);
-            nuovoOrdine.setPagato(pagato);
-            nuovoOrdine.setStato(StatoOrdine.IN_LAVORAZIONE);
-            ordineAcquistoRepository.saveAndFlush(nuovoOrdine);
-            return ResponseEntity.status(HttpStatus.OK).body(nuovoOrdine);
-        } else{
-            return ordineAcquistoService.checkVeicolo(id);
-        }
-    }
 
 
-    public void deleteOrderById(long id) {
-        ordineAcquistoRepository.deleteById(id);
-    }
 
-    public ResponseEntity creaAcquisto(Long id, BigDecimal anticipo, boolean pagato){
-        Optional<Veicolo> veicoloCheck = veicoloRepository.findById(id);
-        if (ordineAcquistoService.checkVeicolo(id).equals(ResponseEntity.status(HttpStatus.OK).body("Veicolo disponibile"))) {
-            OrdineAcquisto nuovoAcquisto = new OrdineAcquisto();
-            nuovoAcquisto.setVeicolo(veicoloCheck.get());
-//            nuovoOrdine.setAcquirente();
-//            nuovoOrdine.setVenditore();
-            nuovoAcquisto.setAnticipo(anticipo);
-            nuovoAcquisto.setPagato(pagato);
-            nuovoAcquisto.setStato(StatoOrdine.IN_LAVORAZIONE);
-            ordineAcquistoRepository.saveAndFlush(nuovoAcquisto);
-            return ResponseEntity.status(HttpStatus.OK).body(nuovoAcquisto);
-        } else{
-            return ordineAcquistoService.checkVeicolo(id);
-        }
-    }
-    public ResponseEntity creaNoleggio(Long id, boolean pagato) {
-        Optional<Veicolo> veicoloCheck = veicoloRepository.findById(id);
-        if (ordineAcquistoService.checkVeicolo(id).equals(ResponseEntity.status(HttpStatus.OK).body("Veicolo disponibile"))) {
-            Noleggio nuovoNoleggio = new Noleggio();
-            nuovoNoleggio.setVeicolo(veicoloCheck.get());
-//            nuovoOrdine.setAcquirente();
-//            nuovoOrdine.setVenditore();
-            nuovoNoleggio.setPagato(pagato);
-            veicoloCheck.get().setStato(StatoVeicolo.NON_DISPONIBILE);
-            noleggioRepository.saveAndFlush(nuovoNoleggio);
-            return ResponseEntity.status(HttpStatus.OK).body(nuovoNoleggio);
-        } else{
-            return ordineAcquistoService.checkVeicolo(id);
-        }
-    }
-    public List<Noleggio> findAllRentals() {
-        return noleggioRepository.findAll();
-    }
-    public void deleteRentalById(long id) {
-        noleggioRepository.deleteById(id);
-    }
-    public Optional<Veicolo> findById(Long id){
-        return veicoloRepository.findById(id);
-    }
+
+
+
+
+
+
+
+
 
 }

@@ -1,8 +1,11 @@
 package com.develhope.spring.features.acquirente;
 
 import com.develhope.spring.features.noleggio.Noleggio;
+import com.develhope.spring.features.noleggio.NoleggioService;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
+import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoService;
 import com.develhope.spring.features.veicolo.Veicolo;
+import com.develhope.spring.features.veicolo.VeicoloService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -20,36 +23,43 @@ import java.util.Optional;
 public class AcquirenteController {
     @Autowired
     private AcquirenteService acquirenteService;
+    @Autowired
+    private NoleggioService noleggioService;
+    @Autowired
+    private OrdineAcquistoService ordineAcquistoService;
+    @Autowired
+    private VeicoloService veicoloService;
 
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "OK"),
-//            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
-//    })
-//    @Operation(summary = "Questo metodo restituisce gli ordini fatti dall'utente")
-//    @GetMapping("/getordini")
-//    public List<OrdineAcquisto> getOrders() {
-//        return acquirenteService.findAllOrders();
-//    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+    })
+    @Operation(summary = "Questo metodo restituisce gli ordini fatti dall'utente")
+    @GetMapping("/getOrdini")
+    public List<OrdineAcquisto> getOrders() {
+        return ordineAcquistoService.findAllOrders();
+    }
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
     @Operation(summary = "Questo metodo restituisce i noleggi fatti dall'utente")
-    @GetMapping("/getnoleggi")
+    @GetMapping("/getNoleggi")
     public List<Noleggio> getNoleggi() {
-        return acquirenteService.findAllRentals();
+        return noleggioService.findAllRentals();
     }
 
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "OK"),
-//            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
-//    })
-//    @Operation(summary = "Questo metodo restituisce gli acquisti fatti dall'utente")
-//    @GetMapping("/iMieiAcquisti")
-//    public List<OrdineAcquisto> getAcquisti() {
-//        return acquirenteService.findAllOrders();
-//    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+    })
+    @Operation(summary = "Questo metodo restituisce gli acquisti fatti dall'utente")
+    @GetMapping("/getAcquisti")
+    public List<OrdineAcquisto> getAcquisti() {
+        return ordineAcquistoService.findAllOrders();
+    }
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -58,37 +68,40 @@ public class AcquirenteController {
     @Operation(summary = "Questo metodo restituisce i dettagli di un veicolo specifico per id")
     @GetMapping("/getVeicolo/{id}")
     public Optional<Veicolo> getVeicoloId(@PathVariable Long id) {
-        return acquirenteService.findById(id);
+        return veicoloService.findById(id);
     }
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+            @ApiResponse(responseCode = "406", description = "VEICOLO NON DISPONIBILE"),
+            @ApiResponse(responseCode = "404", description = "VEICOLO NON PRESENTE")
     })
     @Operation(summary = "Questo metodo permette di effettuare un noleggio")
     @PostMapping("/veicolo/creaNoleggio/{veicoloId}")
     public ResponseEntity creaNoleggio(@PathVariable Long veicoloId, @RequestParam boolean pagato) {
-        return acquirenteService.creaNoleggio(veicoloId, pagato);
+        return noleggioService.creaNoleggio(veicoloId, pagato);
     }
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+            @ApiResponse(responseCode = "406", description = "VEICOLO NON DISPONIBILE"),
+            @ApiResponse(responseCode = "404", description = "VEICOLO NON PRESENTE")
     })
     @Operation(summary = "Questo metodo permette di effettuare un ordine di un veicolo disponibile")
     @PostMapping("/veicolo/creaOrdine/{veicoloId}")
     public ResponseEntity creaOrdine(@PathVariable Long veicoloId, @RequestParam BigDecimal anticipo, @RequestParam boolean pagato) {
-        return acquirenteService.creaOrdine(veicoloId, anticipo, pagato);
+        return ordineAcquistoService.creaOrdine(veicoloId, anticipo, pagato);
     }
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+            @ApiResponse(responseCode = "406", description = "VEICOLO NON DISPONIBILE"),
+            @ApiResponse(responseCode = "404", description = "VEICOLO NON PRESENTE")
     })
     @Operation(summary = "Questo metodo permette di effettuare un acquisto di un veicolo disponibile")
     @PostMapping("/veicolo/creaAcquisto/{veicoloId}")
     public ResponseEntity creaAcquisto(@PathVariable Long veicoloId, @RequestParam BigDecimal anticipo, @RequestParam boolean pagato) {
-        return acquirenteService.creaAcquisto(veicoloId, anticipo, pagato);
+        return ordineAcquistoService.creaAcquisto(veicoloId, anticipo, pagato);
     }
 
     @ApiResponses(value = {
@@ -108,7 +121,7 @@ public class AcquirenteController {
     @Operation(summary = "Questo metodo permette di cancellare un ordine tramite id")
     @DeleteMapping("/cancellaordine/{id}")
     public void cancellaOrdineId(@PathVariable long id) {
-        acquirenteService.deleteOrderById(id);
+        ordineAcquistoService.deleteOrderById(id);
     }
 
     @ApiResponses(value = {
@@ -118,7 +131,7 @@ public class AcquirenteController {
     @Operation(summary = "Questo metodo permette di cancellare un noleggio tramite id")
     @DeleteMapping("/cancellanoleggio/{id}")
     public void cancellaNoleggioId(@PathVariable long id) {
-        acquirenteService.deleteRentalById(id);
+        noleggioService.deleteRentalById(id);
     }
 
     @ApiResponses(value = {
