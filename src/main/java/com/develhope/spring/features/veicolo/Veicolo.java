@@ -1,11 +1,13 @@
 package com.develhope.spring.features.veicolo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.OffsetDateTime;
 
 enum Tipo{
@@ -29,8 +31,9 @@ public class Veicolo {
     private String colore;
     private int potenza;
     private String tipoCambio;
-   // private OffsetDateTime annoMatricolazione;
-    private String alimentazione; //idrogeno!
+    @JsonFormat(pattern="yyyy")
+    private Date annoImmatricolazione;
+    private String alimentazione; 
     private BigDecimal prezzo;
     private int percentualeSconto; //EVENTUALE
     private String optional; //EVENTUALI
