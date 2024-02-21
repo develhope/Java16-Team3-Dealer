@@ -4,7 +4,7 @@ import com.develhope.spring.features.noleggio.Noleggio;
 import com.develhope.spring.features.noleggio.NoleggioRepository;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoRepository;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoService;
-import com.develhope.spring.features.ordiniAcquisti.OrdineOAcquisto;
+import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
 import com.develhope.spring.features.ordiniAcquisti.StatoOrdine;
 import com.develhope.spring.features.veicolo.StatoVeicolo;
 import com.develhope.spring.features.veicolo.Veicolo;
@@ -35,7 +35,7 @@ public class AcquirenteService {
     public ResponseEntity creaOrdine(Long id, BigDecimal anticipo, boolean pagato) {
         Optional<Veicolo> veicoloCheck = veicoloRepository.findById(id);
         if (ordineAcquistoService.checkVeicolo(id).equals(ResponseEntity.status(HttpStatus.OK).body("Veicolo disponibile"))) {
-            OrdineOAcquisto nuovoOrdine = new OrdineOAcquisto();
+            OrdineAcquisto nuovoOrdine = new OrdineAcquisto();
             nuovoOrdine.setVeicolo(veicoloCheck.get());
 //            nuovoOrdine.setAcquirente();
 //            nuovoOrdine.setVenditore();
@@ -48,9 +48,7 @@ public class AcquirenteService {
             return ordineAcquistoService.checkVeicolo(id);
         }
     }
-    public List<OrdineOAcquisto> findAllOrders() {
-        return ordineAcquistoRepository.findAll();
-    }
+
 
     public void deleteOrderById(long id) {
         ordineAcquistoRepository.deleteById(id);
@@ -59,7 +57,7 @@ public class AcquirenteService {
     public ResponseEntity creaAcquisto(Long id, BigDecimal anticipo, boolean pagato){
         Optional<Veicolo> veicoloCheck = veicoloRepository.findById(id);
         if (ordineAcquistoService.checkVeicolo(id).equals(ResponseEntity.status(HttpStatus.OK).body("Veicolo disponibile"))) {
-            OrdineOAcquisto nuovoAcquisto = new OrdineOAcquisto();
+            OrdineAcquisto nuovoAcquisto = new OrdineAcquisto();
             nuovoAcquisto.setVeicolo(veicoloCheck.get());
 //            nuovoOrdine.setAcquirente();
 //            nuovoOrdine.setVenditore();
