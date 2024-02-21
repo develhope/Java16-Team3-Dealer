@@ -14,30 +14,7 @@ import java.util.Optional;
 public class AmministratoreService {
     @Autowired
     private AmministratoreRepository repository;
-    @Autowired
-    private VeicoloRepository veicoloRepository;
 
-    public Veicolo saveVeicolo(Veicolo veicolo) {
-        return repository.saveAndFlush(veicolo);
-    }
 
-    public Optional<Veicolo> modificaStatoVeicolo(Long id, StatoVeicolo stato) {
-        Optional<Veicolo> veicoloCheck = veicoloRepository.findById(id);
-        if (veicoloCheck.isPresent()) {
-            veicoloCheck.get().setStato(stato);
-        } else {
-            return Optional.empty();
-        }
-        return veicoloCheck;
-    }
 
-    public ResponseEntity cancellaVeicoloId(Long id) {
-        Optional<Veicolo> veicoloCheck = veicoloRepository.findById(id);
-        if (veicoloCheck.isPresent() && !(veicoloCheck.get().getStato().equals(StatoVeicolo.NON_DISPONIBILE))){
-            veicoloRepository.deleteById(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Veicolo Eliminato");
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Veicolo Noleggiato o Acquistato");
-        }
-    }
 }

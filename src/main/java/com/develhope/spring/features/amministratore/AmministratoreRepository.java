@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AmministratoreRepository extends JpaRepository<Veicolo,Long> {
+public interface AmministratoreRepository extends JpaRepository<Amministratore,Long> {
+    Amministratore findByEmail(String email);
 }
