@@ -146,8 +146,8 @@ public class AcquirenteController {
     })
     @Operation(summary = "Questo metodo permette di effettuare un ordine di un veicolo disponibile")
     @PostMapping("/veicolo/creaOrdine/{veicoloId}")
-    public ResponseEntity creaOrdine(@PathVariable Long veicoloId, @RequestParam BigDecimal anticipo, @RequestParam boolean pagato) {
-        return ordineAcquistoService.creaOrdine(veicoloId, anticipo, pagato);
+    public ResponseEntity creaOrdine(@PathVariable Long veicoloId,@RequestParam Long acquirenteId,@RequestParam Long venditoreId, @RequestParam BigDecimal anticipo, @RequestParam boolean pagato) {
+        return ordineAcquistoService.creaOrdine(veicoloId,acquirenteId,venditoreId, anticipo, pagato);
     }
 
     @ApiResponses(value = {
@@ -157,8 +157,8 @@ public class AcquirenteController {
     })
     @Operation(summary = "Questo metodo permette di effettuare un acquisto di un veicolo disponibile")
     @PostMapping("/veicolo/creaAcquisto/{veicoloId}")
-    public ResponseEntity creaAcquisto(@PathVariable Long veicoloId, @RequestParam BigDecimal anticipo, @RequestParam boolean pagato) {
-        return ordineAcquistoService.creaAcquisto(veicoloId, anticipo, pagato);
+    public ResponseEntity creaAcquisto(@PathVariable Long veicoloId,@RequestParam Long acquirenteId,@RequestParam Long venditoreId, @RequestParam BigDecimal anticipo, @RequestParam boolean pagato) {
+        return ordineAcquistoService.creaAcquisto(veicoloId,acquirenteId,venditoreId, anticipo, pagato);
     }
 
     @ApiResponses(value = {
