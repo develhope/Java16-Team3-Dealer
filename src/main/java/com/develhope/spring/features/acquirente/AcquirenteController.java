@@ -4,6 +4,8 @@ import com.develhope.spring.features.noleggio.Noleggio;
 import com.develhope.spring.features.noleggio.NoleggioService;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoService;
+import com.develhope.spring.features.veicolo.StatoVeicolo;
+import com.develhope.spring.features.veicolo.Tipo;
 import com.develhope.spring.features.veicolo.Veicolo;
 import com.develhope.spring.features.veicolo.VeicoloService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,6 +32,60 @@ public class AcquirenteController {
     @Autowired
     private VeicoloService veicoloService;
 
+    @Operation(summary = "Questo metodo restituisce una lista di veicoli in base al modello")
+    @GetMapping("/ricercaModello")
+    public List<Veicolo> findByModello(@RequestParam String modello) {
+        return veicoloService.findByModello(modello);
+    }
+
+    @Operation(summary = "Questo metodo restituisce una lista di veicoli in base alla cilindrata")
+    @GetMapping("/ricercaCilindrata")
+    public List<Veicolo> findByCilindrata(@RequestParam long cilindrata) {
+        return veicoloService.findByCilindrata(cilindrata);
+    }
+
+    @Operation(summary = "Questo metodo restituisce una lista di veicoli in base al colore")
+    @GetMapping("/ricercaColore")
+    public List<Veicolo> findByColore(@RequestParam String colore) {
+        return veicoloService.findByColore(colore);
+    }
+
+    @Operation(summary = "Questo metodo restituisce una lista di veicoli in base alla potenza")
+    @GetMapping("/ricercaPotenza")
+    public List<Veicolo> findByPotenza(int potenza) {
+        return veicoloService.findByPotenza(potenza);
+    }
+    @Operation(summary = "Questo metodo restituisce una lista di veicoli in base al tipo di cambio")
+    @GetMapping("/ricercaTipoCambio")
+    public List<Veicolo> findByCambio(String tipoCambio){
+        return veicoloService.findByTipoCambio(tipoCambio);
+    }
+    @Operation(summary = "Questo metodo restituisce una lista di veicoli in base all'alimentazione'")
+    @GetMapping("/ricercaAlimentazione")
+    public List<Veicolo> findByAlimentazione(String alimentazione){
+        return veicoloService.findByAlimentazione(alimentazione);
+    }
+    @Operation(summary = "Questo metodo restituisce una lista di veicoli in base al prezzo")
+    @GetMapping("/ricercaPrezzo")
+    public List<Veicolo> findByPrezzo(BigDecimal prezzo){
+        return veicoloService.findByPrezzo(prezzo);
+    }
+    @Operation(summary = "Questo metodo restituisce una lista di veicoli nuovi oppure usati,a seconda della richiesta")
+    @GetMapping("/ricercaNuovo")
+    public List<Veicolo> findByNuovo(boolean nuovo){
+        return veicoloService.findByNuovo(nuovo);
+    }
+    @Operation(summary = "Questo metodo restituisce una lista di veicoli in base al TIPO")
+
+    @GetMapping("/ricercaTipo")
+    public List<Veicolo> findByTipo(Tipo tipo){
+        return veicoloService.findByTipo(tipo);
+    }
+    @Operation(summary = "Questo metodo restituisce una lista di veicoli in base allo STATO")
+    @GetMapping("/ricercaStato")
+    public List<Veicolo> findByStato(StatoVeicolo stato){
+        return veicoloService.findByStato(stato);
+    }
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -143,4 +199,6 @@ public class AcquirenteController {
     public void cancellaUtente() {
 
     }
+
+
 }
