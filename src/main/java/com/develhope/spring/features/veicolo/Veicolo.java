@@ -10,13 +10,6 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.OffsetDateTime;
 
-enum Tipo{
-    AUTO,
-    MOTO,
-    SCOOTER,
-    FURGONI
-}
-
 @Entity
 @Table
 @Data
@@ -39,7 +32,7 @@ public class Veicolo {
     private String optional; //EVENTUALI
     private boolean nuovo;
     @Enumerated(value = EnumType.STRING)
-    private Tipo tipo;
+    public Tipo tipo;
     @Enumerated(value = EnumType.STRING)
     private StatoVeicolo stato;
 }
