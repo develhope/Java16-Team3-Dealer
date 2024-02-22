@@ -2,6 +2,7 @@ package com.develhope.spring.features.noleggio;
 
 import com.develhope.spring.features.acquirente.Acquirente;
 import com.develhope.spring.features.veicolo.Veicolo;
+import com.develhope.spring.features.venditore.Venditore;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,5 +34,9 @@ public class Noleggio {
     @ManyToOne
     @JoinColumn(name = "veicolo_id")
     private Veicolo veicolo;
+
+    @ManyToOne
+    @JoinColumn(name = "venditore_id")
+    private Venditore venditore;
 
 }
