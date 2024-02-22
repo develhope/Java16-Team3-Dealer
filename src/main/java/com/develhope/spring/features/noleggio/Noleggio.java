@@ -27,7 +27,7 @@ public class Noleggio {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date fineNoleggio;
     private boolean pagato;
-    private BigDecimal prezzoGiornaliero = BigDecimal.valueOf(3);
+    private BigDecimal prezzoGiornaliero = BigDecimal.valueOf(50);
     private BigDecimal prezzoTotale;
 
     @ManyToOne
