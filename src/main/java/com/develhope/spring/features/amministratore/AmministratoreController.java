@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,6 +22,14 @@ public class AmministratoreController {
     public Veicolo creaVeicolo(@RequestBody Veicolo veicolo){
        return veicoloService.saveVeicolo(veicolo);
     }
+    @GetMapping("/veicolo/ricercaStato")
+    public List<Veicolo> findByStato(@RequestParam StatoVeicolo stato){
+        return veicoloService.findByStato(stato);
+    }
+    @GetMapping("/veicolo/ricercaNuovo")
+    public List<Veicolo> findByNuovo(@RequestParam boolean nuovo){
+        return veicoloService.findByNuovo(nuovo);
+    }
 
     @PatchMapping("/veicolo/modificaStatus/{id}")
     public Optional<Veicolo> modificaStatusID(@PathVariable Long id, @RequestParam StatoVeicolo stato){
@@ -31,4 +40,6 @@ public class AmministratoreController {
     public ResponseEntity cancellaVeicoloId(@PathVariable Long id){
         return veicoloService.cancellaVeicoloId(id);
     }
+
+
 }
