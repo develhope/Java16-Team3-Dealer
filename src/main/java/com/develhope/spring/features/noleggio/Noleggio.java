@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
@@ -26,6 +27,8 @@ public class Noleggio {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date fineNoleggio;
     private boolean pagato;
+    private BigDecimal prezzoGiornaliero = BigDecimal.valueOf(3);
+    private BigDecimal prezzoTotale;
 
     @ManyToOne
     @JoinColumn(name = "acquirente_id") //, referencedColumnName = "id"

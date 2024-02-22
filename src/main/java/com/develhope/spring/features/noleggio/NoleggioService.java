@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -45,9 +46,10 @@ public class NoleggioService {
             veicoloCheck.get().setStato(StatoVeicolo.NON_DISPONIBILE);
             nuovoNoleggio.setInizioNoleggio(Date.valueOf(LocalDate.now()));
             nuovoNoleggio.setFineNoleggio(Date.valueOf(LocalDate.now().plusDays(giorni)));
+            nuovoNoleggio.setPrezzoTotale(prezzoTotale(giorni));
             noleggioRepository.saveAndFlush(nuovoNoleggio);
             return ResponseEntity.status(HttpStatus.OK).body(nuovoNoleggio);
-        } else{
+        } else {
             return veicoloService.checkVeicolo(veicoloId);
         }
     }
@@ -55,7 +57,14 @@ public class NoleggioService {
     public List<Noleggio> findAllRentals() {
         return noleggioRepository.findAll();
     }
+
     public void deleteRentalById(long id) {
         noleggioRepository.deleteById(id);
+    }
+
+    public BigDecimal prezzoTotale(int giorni) {
+        Noleggio noleggio = new Noleggio();
+        BigDecimal prezzoTotale = noleggio.getPrezzoGiornaliero().multiply(BigDecimal.valueOf(giorni));
+        return prezzoTotale;
     }
 }
