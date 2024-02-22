@@ -134,8 +134,8 @@ public class AcquirenteController {
     })
     @Operation(summary = "Questo metodo permette di effettuare un noleggio")
     @PostMapping("/veicolo/creaNoleggio/{veicoloId}")
-    public ResponseEntity creaNoleggio(@PathVariable Long veicoloId, @RequestParam boolean pagato) {
-        return noleggioService.creaNoleggio(veicoloId, pagato);
+    public ResponseEntity creaNoleggio(@PathVariable Long veicoloId,@RequestParam Long utenteId, @RequestParam Long venditoreId, @RequestParam boolean pagato, @RequestParam int giorni) {
+        return noleggioService.creaNoleggio(veicoloId, utenteId, venditoreId, pagato, giorni);
     }
 
     @ApiResponses(value = {
