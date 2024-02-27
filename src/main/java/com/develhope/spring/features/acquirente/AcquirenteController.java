@@ -150,13 +150,20 @@ public class AcquirenteController {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "406", description = "VEICOLO NON DISPONIBILE"),
-            @ApiResponse(responseCode = "404", description = "VEICOLO NON PRESENTE")
+            @ApiResponse(responseCode = "510", description = "VEICOLO NON PRESENTE"),
+            @ApiResponse(responseCode = "511", description = "VEICOLO NON DISPONIBILE"),
+            @ApiResponse(responseCode = "512", description = "ACQUIRENTE NON PRESENTE"),
+            @ApiResponse(responseCode = "513", description = "VENDITORE NON PRESENTE")
     })
     @Operation(summary = "Questo metodo permette di effettuare un ordine di un veicolo disponibile")
     @PostMapping("/veicolo/creaOrdine/{veicoloId}")
-    public ResponseEntity creaOrdine(@PathVariable Long veicoloId,@RequestParam Long acquirenteId,@RequestParam Long venditoreId, @RequestParam BigDecimal anticipo, @RequestParam boolean pagato) {
-        return ordineAcquistoService.creaOrdine(veicoloId,acquirenteId,venditoreId, anticipo, pagato);
+    public ResponseEntity<?> creaOrdine(@PathVariable Long veicoloId,@RequestParam Long acquirenteId,@RequestParam Long venditoreId, @RequestParam BigDecimal anticipo, @RequestParam boolean pagato) {
+        Either<Error,OrdineAcquisto> result = ordineAcquistoService.creaOrdine(veicoloId,acquirenteId,venditoreId, anticipo, pagato);
+        if(result.isLeft()){
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
+        }else{
+            return ResponseEntity.ok(result.right());
+        }
     }
 
     @ApiResponses(value = {
