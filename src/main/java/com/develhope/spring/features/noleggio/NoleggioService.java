@@ -69,8 +69,15 @@ public class NoleggioService {
         return noleggioRepository.findAll();
     }
 
-    public void deleteRentalById(long id) {
-        noleggioRepository.deleteById(id);
+    public Either<Error,Noleggio> eliminaNoleggioId(long id) {
+
+       Optional<Noleggio> checkNoleggio = noleggioRepository.findById(id);
+       if(checkNoleggio.isEmpty()){
+           return Either.left(new Error(515,"noleggio non presente"));
+       }else {
+           noleggioRepository.deleteById(id);
+           return Either.left(new Error(204,"risorsa eliminata correttamente"));
+       }
     }
 
     public BigDecimal prezzoTotale(int giorni) {

@@ -205,13 +205,14 @@ public class AcquirenteController {
     }
 
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "404", description = "NOLEGGIO NON TROVATO CON QUELL'ID")
+            @ApiResponse(responseCode = "515", description = "NOLEGGIO NON PRESENTE"),
+            @ApiResponse(responseCode = "204", description = "RISORSA ELIMINATA CORRETTAMENTE")
     })
     @Operation(summary = "Questo metodo permette di cancellare un noleggio tramite id")
-    @DeleteMapping("/cancellanoleggio/{id}")
-    public void cancellaNoleggioId(@PathVariable long id) {
-        noleggioService.deleteRentalById(id);
+    @DeleteMapping("/noleggio/elimina/{id}")
+    public ResponseEntity<?> cancellaNoleggioId(@PathVariable long id) {
+        Either<Error, Noleggio> result = noleggioService.eliminaNoleggioId(id);
+        return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
     }
 
     @ApiResponses(value = {
