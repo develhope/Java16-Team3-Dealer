@@ -1,5 +1,6 @@
 package com.develhope.spring.features.amministratore;
 
+import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoService;
 import com.develhope.spring.features.shared.Error;
 import com.develhope.spring.features.veicolo.StatoVeicolo;
 import com.develhope.spring.features.veicolo.Veicolo;
@@ -22,6 +23,8 @@ public class AmministratoreController {
     private AmministratoreService amministratoreService;
     @Autowired
     private VeicoloService veicoloService;
+    @Autowired
+    private OrdineAcquistoService ordineAcquistoService;
 
     @PostMapping("/veicolo/creazione")
     public Veicolo creaVeicolo(@RequestBody Veicolo veicolo){
@@ -56,9 +59,14 @@ public class AmministratoreController {
             return ResponseEntity.ok(result.right());
         }
     }
-    @DeleteMapping("/veicolo/delete/{id}")
+    @DeleteMapping("/veicolo/elimina/{id}")
     public ResponseEntity cancellaVeicoloId(@PathVariable Long id){
         return veicoloService.cancellaVeicoloId(id);
+    }
+
+    @DeleteMapping("/ordine/elimina/{id}")
+    public void eliminaOrdine(@PathVariable Long id){
+        ordineAcquistoService.deleteOrderById(id);
     }
 
 
