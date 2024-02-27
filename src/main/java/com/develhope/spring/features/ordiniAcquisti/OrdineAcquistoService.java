@@ -94,4 +94,12 @@ public class OrdineAcquistoService {
     public List<OrdineAcquisto> findByStatoOrdine(StatoOrdine stato){
         return ordineAcquistoRepository.findByStato(stato);
     }
+    public Either<Error,OrdineAcquisto> verificaStatoOrdine(Long id){
+        Optional<OrdineAcquisto> checkOrdine = ordineAcquistoRepository.findById(id);
+        if(checkOrdine.isEmpty()){
+            return  Either.left(new Error(516,"ordine non presente"));
+        }else{
+            return Either.right(checkOrdine.get());
+        }
+    }
 }
