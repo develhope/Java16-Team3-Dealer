@@ -2,12 +2,14 @@ package com.develhope.spring.features.noleggio;
 
 import com.develhope.spring.features.acquirente.Acquirente;
 import com.develhope.spring.features.acquirente.AcquirenteRepository;
+import com.develhope.spring.features.shared.Error;
 import com.develhope.spring.features.veicolo.StatoVeicolo;
 import com.develhope.spring.features.veicolo.Veicolo;
 import com.develhope.spring.features.veicolo.VeicoloRepository;
 import com.develhope.spring.features.veicolo.VeicoloService;
 import com.develhope.spring.features.venditore.Venditore;
 import com.develhope.spring.features.venditore.VenditoreRepository;
+import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,26 +34,38 @@ public class NoleggioService {
     @Autowired
     private VenditoreRepository venditoreRepository;
 
-    public ResponseEntity creaNoleggio(Long veicoloId, Long utenteId, Long venditoreId, boolean pagato, int giorni) {
-        Optional<Veicolo> veicoloCheck = veicoloService.findById(veicoloId);
-        Optional<Acquirente> acquirenteCheck = acquirenteRepository.findById(utenteId);
-        Optional<Venditore> venditoreCheck = venditoreRepository.findById(venditoreId);
 
-        if (veicoloService.checkVeicolo(veicoloId).equals(ResponseEntity.status(HttpStatus.OK).body("Veicolo disponibile"))) {
-            Noleggio nuovoNoleggio = new Noleggio();
-            nuovoNoleggio.setVeicolo(veicoloCheck.get());
-            nuovoNoleggio.setAcquirente(acquirenteCheck.get());
-            nuovoNoleggio.setVenditore(venditoreCheck.get());
-            nuovoNoleggio.setPagato(pagato);
-            veicoloCheck.get().setStato(StatoVeicolo.NON_DISPONIBILE);
-            nuovoNoleggio.setInizioNoleggio(Date.valueOf(LocalDate.now()));
-            nuovoNoleggio.setFineNoleggio(Date.valueOf(LocalDate.now().plusDays(giorni)));
-            nuovoNoleggio.setPrezzoTotale(prezzoTotale(giorni));
-            noleggioRepository.saveAndFlush(nuovoNoleggio);
-            return ResponseEntity.status(HttpStatus.OK).body(nuovoNoleggio);
-        } else {
-            return veicoloService.checkVeicolo(veicoloId);
+    public Either<Error, Noleggio> creaNoleggio(Long veicoloId, Long utenteId, Long venditoreId, boolean pagato, int giorni) {
+        Optional<Veicolo> veicoloCheck = veicoloService.findById(veicoloId);
+        if (veicoloCheck.isEmpty()) {
+            return Either.left(new Error(510, "veicolo non presente"));
+
+        } else if (!veicoloCheck.get().getStato().equals(StatoVeicolo.DISPONIBILE)) { 
+
+        } else if (!veicoloCheck.get().getStato().equals(StatoVeicolo.ACQUISTABILE)) { // enum disponibile +
+
+        } else if (!veicoloCheck.get().getStato().equals(StatoVeicolo.ACQUISTABILE)) { // enum disponibile +
+            return Either.left(new Error(511, "veicolo non disponibile"));
         }
+        Optional<Acquirente> acquirenteCheck = acquirenteRepository.findById(utenteId);
+        if (acquirenteCheck.isEmpty()) {
+            return Either.left(new Error(512, "acquirente non presente"));
+        }
+        Optional<Venditore> venditoreCheck = venditoreRepository.findById(venditoreId);
+        if (venditoreCheck.isEmpty()) {
+            return Either.left(new Error(513, "venditore non presente"));
+        }
+        Noleggio nuovoNoleggio = new Noleggio();
+        nuovoNoleggio.setVeicolo(veicoloCheck.get());
+        nuovoNoleggio.setAcquirente(acquirenteCheck.get());
+        nuovoNoleggio.setVenditore(venditoreCheck.get());
+        nuovoNoleggio.setPagato(pagato);
+        veicoloCheck.get().setStato(StatoVeicolo.NON_DISPONIBILE);
+        nuovoNoleggio.setInizioNoleggio(Date.valueOf(LocalDate.now()));
+        nuovoNoleggio.setFineNoleggio(Date.valueOf(LocalDate.now().plusDays(giorni)));
+        nuovoNoleggio.setPrezzoTotale(prezzoTotale(giorni));
+        noleggioRepository.saveAndFlush(nuovoNoleggio);
+        return Either.right(nuovoNoleggio);
     }
 
     public List<Noleggio> findAllRentals() {
