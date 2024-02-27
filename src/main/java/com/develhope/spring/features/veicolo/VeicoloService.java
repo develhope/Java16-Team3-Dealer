@@ -1,5 +1,7 @@
 package com.develhope.spring.features.veicolo;
 
+import com.develhope.spring.features.shared.Error;
+import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +37,31 @@ public class VeicoloService {
             return Optional.empty();
         }
         return veicoloCheck;
+    }
+    public Either<Error,Veicolo> modificaVeicolo(Long id, Veicolo veicolo){
+        Optional<Veicolo> veicoloCheck = veicoloRepository.findById(id);
+        if(veicoloCheck.isEmpty()){
+            return Either.left(new Error(510,"veicolo non presente"));
+        }else if(veicoloCheck.get().getStato().equals(StatoVeicolo.NON_DISPONIBILE)){
+            return Either.left(new Error(514,"veicolo non modificabile"));
+        }else{
+            veicoloCheck.get().setAlimentazione(veicolo.getAlimentazione());
+            veicoloCheck.get().setCilindrata(veicolo.getCilindrata());
+            veicoloCheck.get().setStato(veicolo.getStato());
+            veicoloCheck.get().setColore(veicolo.getColore());
+            veicoloCheck.get().setAnnoImmatricolazione(veicolo.getAnnoImmatricolazione());
+            veicoloCheck.get().setNuovo(veicolo.isNuovo());
+            veicoloCheck.get().setModello(veicolo.getModello());
+            veicoloCheck.get().setOptional(veicolo.getOptional());
+            veicoloCheck.get().setPercentualeSconto(veicolo.getPercentualeSconto());
+            veicoloCheck.get().setTipoCambio(veicolo.getTipoCambio());
+            veicoloCheck.get().setPotenza(veicolo.getPotenza());
+            veicoloCheck.get().setTipo(veicolo.getTipo());
+            veicoloCheck.get().setPrezzo(veicolo.getPrezzo());
+            veicoloRepository.saveAndFlush(veicoloCheck.get());
+            return Either.right(veicoloCheck.get());
+        }
+
     }
 
     public ResponseEntity cancellaVeicoloId(Long id) {
