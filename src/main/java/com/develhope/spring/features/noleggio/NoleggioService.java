@@ -44,6 +44,7 @@ public class NoleggioService {
 
         } else if (!veicoloCheck.get().getStato().equals(StatoVeicolo.ACQUISTABILE)) { // enum disponibile +
 
+        } else if (!veicoloCheck.get().getStato().equals(StatoVeicolo.ACQUISTABILE)) { // enum disponibile +
             return Either.left(new Error(511, "veicolo non disponibile"));
         }
         Optional<Acquirente> acquirenteCheck = acquirenteRepository.findById(utenteId);
