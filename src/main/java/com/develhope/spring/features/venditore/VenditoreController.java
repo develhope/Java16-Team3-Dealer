@@ -49,4 +49,14 @@ public class VenditoreController {
     public List<OrdineAcquisto> findByStatoOrdine(@RequestParam StatoOrdine stato){
         return ordineAcquistoService.findByStatoOrdine(stato);
     }
+
+    @GetMapping("/ordine/verificaStato/{id}")
+    public ResponseEntity<?> verificaStatoId(@PathVariable Long id){
+        Either<Error, OrdineAcquisto> result = ordineAcquistoService.verificaStatoOrdine(id);
+        if(result.isLeft()){
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
+        }else{
+            return ResponseEntity.ok(result.right());
+        }
+    }
 }
