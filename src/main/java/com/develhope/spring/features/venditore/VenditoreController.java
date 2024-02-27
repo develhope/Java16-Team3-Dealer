@@ -2,6 +2,9 @@ package com.develhope.spring.features.venditore;
 
 import com.develhope.spring.features.noleggio.Noleggio;
 import com.develhope.spring.features.noleggio.NoleggioService;
+import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
+import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoService;
+import com.develhope.spring.features.ordiniAcquisti.StatoOrdine;
 import com.develhope.spring.features.shared.Error;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/autosalone/venditore")
 public class VenditoreController {
@@ -19,6 +24,8 @@ public class VenditoreController {
 
     @Autowired
     private NoleggioService noleggioService;
+    @Autowired
+    private OrdineAcquistoService ordineAcquistoService;
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -36,5 +43,10 @@ public class VenditoreController {
         }else{
             return ResponseEntity.ok(result.right());
         }
+    }
+    @Operation(summary = "Questo metodo restituisce una lista di ordine in base allo stato")
+    @GetMapping("/ordine/ricercaStato")
+    public List<OrdineAcquisto> findByStatoOrdine(@RequestParam StatoOrdine stato){
+        return ordineAcquistoService.findByStatoOrdine(stato);
     }
 }
