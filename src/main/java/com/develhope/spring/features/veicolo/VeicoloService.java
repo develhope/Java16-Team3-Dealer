@@ -23,17 +23,6 @@ public class VeicoloService {
         }
     }
 
-    public ResponseEntity checkVeicolo(Long id) {
-        Optional<Veicolo> veicoloCheck = veicoloRepository.findById(id);
-        if (veicoloCheck.isPresent() && veicoloCheck.get().getStato().equals(StatoVeicolo.ORDINABILE)) {
-            return ResponseEntity.status(HttpStatus.OK).body("Veicolo disponibile");
-        } else if (veicoloCheck.isPresent() && !(veicoloCheck.get().getStato().equals(StatoVeicolo.ORDINABILE))) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Veicolo non disponibile");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Veicolo non presente");
-        }
-    }
-
     public Veicolo saveVeicolo(Veicolo veicolo) {
         return veicoloRepository.saveAndFlush(veicolo);
     }
