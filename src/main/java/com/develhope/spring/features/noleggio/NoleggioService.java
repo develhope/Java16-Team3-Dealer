@@ -40,13 +40,10 @@ public class NoleggioService {
         if (veicoloCheck.isEmpty()) {
             return Either.left(new Error(510, "veicolo non presente"));
 
-        } else if (!veicoloCheck.get().getStato().equals(StatoVeicolo.DISPONIBILE)) { 
-
-        } else if (!veicoloCheck.get().getStato().equals(StatoVeicolo.ACQUISTABILE)) { // enum disponibile +
-
-        } else if (!veicoloCheck.get().getStato().equals(StatoVeicolo.ACQUISTABILE)) { // enum disponibile +
+        } else if (!veicoloCheck.get().getStato().equals(StatoVeicolo.DISPONIBILE)) {
             return Either.left(new Error(511, "veicolo non disponibile"));
         }
+
         Optional<Acquirente> acquirenteCheck = acquirenteRepository.findById(utenteId);
         if (acquirenteCheck.isEmpty()) {
             return Either.left(new Error(512, "acquirente non presente"));
