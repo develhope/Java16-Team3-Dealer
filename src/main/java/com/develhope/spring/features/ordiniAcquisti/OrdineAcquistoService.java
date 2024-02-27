@@ -91,4 +91,7 @@ public class OrdineAcquistoService {
     public void deleteOrderById(long id) {
         ordineAcquistoRepository.deleteById(id);
     }
+    public List<OrdineAcquisto> findByStatoOrdine(StatoOrdine stato){
+        return ordineAcquistoRepository.findByStato(stato);
+    }
 }
