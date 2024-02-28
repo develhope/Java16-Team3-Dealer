@@ -71,11 +71,13 @@ public class SignUpService {
         }
     }
 
-    public boolean deleteUserById (long id) {
-        if(acquirenteRepository.findById(idLogin.getId()).isPresent()){
-            acquirenteRepository.deleteById(id);
-            return true;
-        }
-        return false;
+    public ResponseEntity<String> deleteUserById (LoginCredenziali loginCredenziali) {
+            Acquirente acquirente = acquirenteRepository.findById(idLogin.getId()).get();
+            if(loginCredenziali.getPassword().equals(acquirente.getPassword())){
+                acquirenteRepository.deleteById(idLogin.getId());
+                return ResponseEntity.status(600).body("Acquirente Eliminato Correttamente");
+            }
+        return ResponseEntity.status(601).body("Password Errata! Reinserire Password");
     }
+
 }

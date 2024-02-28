@@ -6,6 +6,7 @@ import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoRichiesta;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoService;
 import com.develhope.spring.features.shared.Error;
+import com.develhope.spring.features.signUpSignIn.LoginCredenziali;
 import com.develhope.spring.features.signUpSignIn.SignUpService;
 import com.develhope.spring.features.veicolo.StatoVeicolo;
 import com.develhope.spring.features.veicolo.Tipo;
@@ -222,14 +223,13 @@ public class AcquirenteController {
     }
 
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "400", description = "PASSWORD SBAGLIATA")
+            @ApiResponse(responseCode = "600", description = "OK"),
+            @ApiResponse(responseCode = "601", description = "PASSWORD SBAGLIATA")
     })
     @Operation(summary = "Questo metodo permette all'utente di cancellare il proprio account")
-    @DeleteMapping("/cancellautente/{id}")
-    public void cancellaUtente(@PathVariable Long id) {
-        signUpService.deleteUserById(id);
+    @DeleteMapping("/cancellaUtenza")
+    public ResponseEntity<String> cancellaUtente(@RequestBody LoginCredenziali loginCredenziali) {
+       return signUpService.deleteUserById(loginCredenziali);
     }
-
-
+    
 }
