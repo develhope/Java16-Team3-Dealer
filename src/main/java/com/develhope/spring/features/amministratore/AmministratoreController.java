@@ -88,5 +88,10 @@ public class AmministratoreController {
         return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
     }
 
+    @DeleteMapping("/acquisto/elimina/{id}")
+    public void eliminaAcquisto(@PathVariable Long id){
+        ordineAcquistoService.deleteOrderById(id);
+    }
+
 
 }

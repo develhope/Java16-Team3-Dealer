@@ -58,7 +58,6 @@ public class OrdineAcquistoService {
 
     }
 
-
     public Either<Error,OrdineAcquisto> creaAcquisto(Long id, Long acquirenteId, Long venditoreId, BigDecimal anticipo, boolean pagato){
         Optional<Veicolo> veicoloCheck = veicoloService.findById(id);
         if (veicoloCheck.isEmpty()) {
