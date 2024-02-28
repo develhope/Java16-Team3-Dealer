@@ -196,9 +196,9 @@ public class AcquirenteController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
     @Operation(summary = "Questo metodo permette di modificare i dati dell'utente")
-    @PatchMapping("/modificautente")
-    public void modificaDatiUtente() {
-
+    @PatchMapping("/modificaUtente")
+    public Acquirente modificaDatiUtente(@RequestBody Acquirente acquirente) {
+        return acquirenteService.modificaDati(acquirente);
     }
 
     @ApiResponses(value = {
@@ -206,7 +206,7 @@ public class AcquirenteController {
             @ApiResponse(responseCode = "404", description = "ORDINE NON TROVATO CON QUELL'ID")
     })
     @Operation(summary = "Questo metodo permette di cancellare un ordine tramite id")
-    @DeleteMapping("/cancellaordine/{id}")
+    @DeleteMapping("/cancellaOrdine/{id}")
     public void cancellaOrdineId(@PathVariable long id) {
         ordineAcquistoService.deleteOrderById(id);
     }
