@@ -2,6 +2,7 @@ package com.develhope.spring.features.amministratore;
 
 import com.develhope.spring.features.noleggio.Noleggio;
 import com.develhope.spring.features.noleggio.NoleggioService;
+import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoService;
 import com.develhope.spring.features.shared.Error;
 import com.develhope.spring.features.veicolo.StatoVeicolo;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +31,15 @@ public class AmministratoreController {
     private OrdineAcquistoService ordineAcquistoService;
     @Autowired
     private NoleggioService noleggioService;
+    @PostMapping("/acquisto/creazione/{veicoloId}")
+    public ResponseEntity<?> creaAcquisto(@PathVariable Long veicoloId, @RequestParam Long acquirenteId, @RequestParam Long venditoreId, @RequestParam BigDecimal anticipo, @RequestParam boolean pagato){
+        Either<Error, OrdineAcquisto> result = ordineAcquistoService.creaAcquisto(veicoloId,acquirenteId,venditoreId,anticipo,pagato);
+        if (result.isLeft()) {
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
+        } else {
+            return ResponseEntity.ok(result.right());
+        }
+    }
 
     @PostMapping("/veicolo/creazione")
     public Veicolo creaVeicolo(@RequestBody Veicolo veicolo) {
@@ -48,7 +59,6 @@ public class AmministratoreController {
     @PatchMapping("/veicolo/modificaStatus/{id}")
     public Optional<Veicolo> modificaStatusID(@PathVariable Long id, @RequestParam StatoVeicolo stato) {
         return veicoloService.modificaStatoVeicolo(id, stato);
-
     }
 
     @ApiResponses(value = {
