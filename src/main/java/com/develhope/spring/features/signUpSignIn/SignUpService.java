@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class SignUpService {
     @Autowired
@@ -19,6 +21,9 @@ public class SignUpService {
     private VenditoreRepository venditoreRepository;
     @Autowired
     private AmministratoreRepository amministratoreRepository;
+
+    @Autowired
+    private IDLogin idLogin;
 
     private ResponseEntity checkEsistenzaAcquirente(Acquirente acquirente){
         if (acquirenteRepository.findByEmail(acquirente.getEmail()) != null || acquirenteRepository.findByTelefono(acquirente.getTelefono()) != null){
@@ -64,5 +69,13 @@ public class SignUpService {
         }else {
             return emailCheckAmministratore(nuovoAdmin);
         }
+    }
+
+    public boolean deleteUserById (long id) {
+        if(acquirenteRepository.findById(idLogin.getId()).isPresent()){
+            acquirenteRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

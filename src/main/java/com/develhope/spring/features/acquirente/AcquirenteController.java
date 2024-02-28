@@ -5,6 +5,7 @@ import com.develhope.spring.features.noleggio.NoleggioService;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoService;
 import com.develhope.spring.features.shared.Error;
+import com.develhope.spring.features.signUpSignIn.SignUpService;
 import com.develhope.spring.features.veicolo.StatoVeicolo;
 import com.develhope.spring.features.veicolo.Tipo;
 import com.develhope.spring.features.veicolo.Veicolo;
@@ -33,6 +34,9 @@ public class AcquirenteController {
     private OrdineAcquistoService ordineAcquistoService;
     @Autowired
     private VeicoloService veicoloService;
+
+    @Autowired
+    private SignUpService signUpService;
 
 
 
@@ -221,9 +225,9 @@ public class AcquirenteController {
             @ApiResponse(responseCode = "400", description = "PASSWORD SBAGLIATA")
     })
     @Operation(summary = "Questo metodo permette all'utente di cancellare il proprio account")
-    @DeleteMapping("/cancellautente")
-    public void cancellaUtente() {
-
+    @DeleteMapping("/cancellautente/{id}")
+    public void cancellaUtente(@PathVariable Long id) {
+        signUpService.deleteUserById(id);
     }
 
 
