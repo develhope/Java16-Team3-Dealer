@@ -11,8 +11,6 @@ import com.develhope.spring.features.venditore.Venditore;
 import com.develhope.spring.features.venditore.VenditoreRepository;
 import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -58,19 +56,19 @@ public class OrdineAcquistoService {
 
     }
 
-    public Either<Error,OrdineAcquisto> creaAcquisto(Long id, Long acquirenteId, Long venditoreId, BigDecimal anticipo, boolean pagato){
-        Optional<Veicolo> veicoloCheck = veicoloService.findById(id);
+    public Either<Error,OrdineAcquisto> creaAcquisto(OrdineAcquistoRichiesta ordineAcquistoRichiesta){
+        Optional<Veicolo> veicoloCheck = veicoloService.findById(ordineAcquistoRichiesta.getVeicoloId());
         if (veicoloCheck.isEmpty()) {
             return Either.left(new Error(510, "veicolo non presente"));
 
         } else if (!veicoloCheck.get().getStato().equals(StatoVeicolo.ACQUISTABILE)) {
             return Either.left(new Error(511, "veicolo non disponibile"));
         }
-        Optional<Acquirente> acquirenteCheck = acquirenteRepository.findById(acquirenteId);
+        Optional<Acquirente> acquirenteCheck = acquirenteRepository.findById(ordineAcquistoRichiesta.getAcquirenteId());
         if (acquirenteCheck.isEmpty()) {
             return Either.left(new Error(512, "acquirente non presente"));
         }
-        Optional<Venditore> venditoreCheck = venditoreRepository.findById(venditoreId);
+        Optional<Venditore> venditoreCheck = venditoreRepository.findById(ordineAcquistoRichiesta.getVenditoreId());
         if (venditoreCheck.isEmpty()) {
             return Either.left(new Error(513, "venditore non presente"));
         }
@@ -78,8 +76,8 @@ public class OrdineAcquistoService {
             nuovoAcquisto.setVeicolo(veicoloCheck.get());
             nuovoAcquisto.setAcquirente(acquirenteCheck.get());
             nuovoAcquisto.setVenditore(venditoreCheck.get());
-            nuovoAcquisto.setAnticipo(anticipo);
-            nuovoAcquisto.setPagato(pagato);
+            nuovoAcquisto.setAnticipo(ordineAcquistoRichiesta.getAnticipo());
+            nuovoAcquisto.setPagato(ordineAcquistoRichiesta.isPagato());
             nuovoAcquisto.setStato(StatoOrdine.IN_LAVORAZIONE);
             ordineAcquistoRepository.saveAndFlush(nuovoAcquisto);
             return Either.right(nuovoAcquisto);
