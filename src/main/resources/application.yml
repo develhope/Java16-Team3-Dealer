@@ -1,9 +1,13 @@
 spring:
+    output:
+        ansi:
+            enabled: ALWAYS
     datasource:
         url: jdbc:mysql://sql8.freesqldatabase.com/sql8683990
         username: sql8683990
         password: nw8MAiNhbt
         driver-class-name: com.mysql.cj.jdbc.Driver
+
     jpa:
         hibernate:
             ddl-auto: update
