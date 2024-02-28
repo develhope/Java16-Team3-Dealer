@@ -3,6 +3,7 @@ package com.develhope.spring.features.acquirente;
 import com.develhope.spring.features.noleggio.Noleggio;
 import com.develhope.spring.features.noleggio.NoleggioService;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
+import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoRichiesta;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoService;
 import com.develhope.spring.features.shared.Error;
 import com.develhope.spring.features.signUpSignIn.SignUpService;
@@ -180,8 +181,8 @@ public class AcquirenteController {
     })
     @Operation(summary = "Questo metodo permette di effettuare un acquisto di un veicolo disponibile")
     @PostMapping("/veicolo/creaAcquisto/{veicoloId}")
-    public ResponseEntity<?> creaAcquisto(@PathVariable Long veicoloId,@RequestParam Long acquirenteId,@RequestParam Long venditoreId, @RequestParam BigDecimal anticipo, @RequestParam boolean pagato) {
-        Either<Error,OrdineAcquisto> result = ordineAcquistoService.creaAcquisto(veicoloId,acquirenteId,venditoreId, anticipo, pagato);
+    public ResponseEntity<?> creaAcquisto(@RequestBody OrdineAcquistoRichiesta ordineAcquistoRichiesta) {
+        Either<Error,OrdineAcquisto> result = ordineAcquistoService.creaAcquisto(ordineAcquistoRichiesta);
         if(result.isLeft()){
             return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         }else{
