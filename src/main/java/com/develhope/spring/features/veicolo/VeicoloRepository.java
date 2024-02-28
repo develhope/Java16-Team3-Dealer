@@ -20,4 +20,6 @@ public interface VeicoloRepository extends JpaRepository<Veicolo,Long> {
     List<Veicolo> findByNuovo(boolean nuovo);
     List<Veicolo> findByTipo(Tipo tipo);
     List<Veicolo> findByStato(StatoVeicolo stato);
+
+
 }

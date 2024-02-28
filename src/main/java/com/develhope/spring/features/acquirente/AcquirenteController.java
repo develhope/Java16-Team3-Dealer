@@ -35,6 +35,7 @@ public class AcquirenteController {
     private VeicoloService veicoloService;
 
 
+
     @Operation(summary = "Questo metodo restituisce una lista di veicoli in base al modello")
     @GetMapping("/ricercaModello")
     public List<Veicolo> findByModello(@RequestParam String modello) {
