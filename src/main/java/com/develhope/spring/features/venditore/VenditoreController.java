@@ -4,6 +4,7 @@ import com.develhope.spring.features.noleggio.Noleggio;
 import com.develhope.spring.features.noleggio.NoleggioRichiesta;
 import com.develhope.spring.features.noleggio.NoleggioService;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
+import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoRichiesta;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoService;
 import com.develhope.spring.features.ordiniAcquisti.StatoOrdine;
 import com.develhope.spring.features.shared.Error;
@@ -39,6 +40,23 @@ public class VenditoreController {
     @PostMapping("/creaNoleggio")
     public ResponseEntity<?> creaNoleggio(@RequestBody NoleggioRichiesta noleggioRichiesta) {
         Either<Error, Noleggio> result = noleggioService.creaNoleggio(noleggioRichiesta);
+        if(result.isLeft()){
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
+        }else{
+            return ResponseEntity.ok(result.right());
+        }
+    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "510", description = "VEICOLO NON PRESENTE"),
+            @ApiResponse(responseCode = "511", description = "VEICOLO NON DISPONIBILE"),
+            @ApiResponse(responseCode = "512", description = "ACQUIRENTE NON PRESENTE"),
+            @ApiResponse(responseCode = "513", description = "VENDITORE NON PRESENTE")
+    })
+    @Operation(summary = "Questo metodo permette di effettuare un noleggio")
+    @PostMapping("/creaOrdine")
+    public ResponseEntity<?> creaOrdine(@RequestBody OrdineAcquistoRichiesta ordineAcquistoRichiesta){
+        Either<Error, OrdineAcquisto> result = ordineAcquistoService.creaOrdine(ordineAcquistoRichiesta);
         if(result.isLeft()){
             return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         }else{
