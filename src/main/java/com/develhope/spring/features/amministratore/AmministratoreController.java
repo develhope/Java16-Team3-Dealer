@@ -1,5 +1,6 @@
 package com.develhope.spring.features.amministratore;
 
+import com.develhope.spring.features.acquirente.Acquirente;
 import com.develhope.spring.features.acquirente.AcquirenteService;
 import com.develhope.spring.features.noleggio.Noleggio;
 import com.develhope.spring.features.noleggio.NoleggioRichiesta;
@@ -171,6 +172,16 @@ public class AmministratoreController {
     @DeleteMapping("/account/elimina/venditore/{id}")
     public ResponseEntity<String> eliminaVenditore(@PathVariable Long id){
         return signUpService.adminEliminaVenditore(id);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+    })
+    @Operation(summary = "Questo metodo permette di modificare l'utente")
+    @PatchMapping("/modificaUtente")
+    public ResponseEntity modificaDatiUtente(@RequestBody Acquirente acquirente, @RequestParam Long id) {
+        return amministratoreService.modificaDati(id, acquirente);
     }
 
 
