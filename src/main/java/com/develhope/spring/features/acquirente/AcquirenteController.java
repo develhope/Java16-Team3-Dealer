@@ -1,6 +1,7 @@
 package com.develhope.spring.features.acquirente;
 
 import com.develhope.spring.features.noleggio.Noleggio;
+import com.develhope.spring.features.noleggio.NoleggioRichiesta;
 import com.develhope.spring.features.noleggio.NoleggioService;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoRichiesta;
@@ -145,9 +146,9 @@ public class AcquirenteController {
             @ApiResponse(responseCode = "513", description = "VENDITORE NON PRESENTE")
     })
     @Operation(summary = "Questo metodo permette di effettuare un noleggio")
-    @PostMapping("/veicolo/creaNoleggio/{veicoloId}")
-    public ResponseEntity<?> creaNoleggio(@PathVariable Long veicoloId,@RequestParam Long utenteId, @RequestParam Long venditoreId, @RequestParam boolean pagato, @RequestParam int giorni) {
-        Either<Error,Noleggio> result = noleggioService.creaNoleggio(veicoloId, utenteId, venditoreId, pagato, giorni);
+    @PostMapping("/veicolo/creaNoleggio")
+    public ResponseEntity<?> creaNoleggio(@RequestBody NoleggioRichiesta noleggioRichiesta) {
+        Either<Error,Noleggio> result = noleggioService.creaNoleggio(noleggioRichiesta);
         if(result.isLeft()){
             return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         }else{

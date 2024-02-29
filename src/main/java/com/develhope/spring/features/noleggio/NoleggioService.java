@@ -35,8 +35,8 @@ public class NoleggioService {
     private VenditoreRepository venditoreRepository;
 
 
-    public Either<Error, Noleggio> creaNoleggio(Long veicoloId, Long utenteId, Long venditoreId, boolean pagato, int giorni) {
-        Optional<Veicolo> veicoloCheck = veicoloService.findById(veicoloId);
+    public Either<Error, Noleggio> creaNoleggio(NoleggioRichiesta noleggioRichiesta) {
+        Optional<Veicolo> veicoloCheck = veicoloService.findById(noleggioRichiesta.getVeicoloId());
         if (veicoloCheck.isEmpty()) {
             return Either.left(new Error(510, "veicolo non presente"));
 
@@ -44,11 +44,11 @@ public class NoleggioService {
             return Either.left(new Error(511, "veicolo non disponibile"));
         }
 
-        Optional<Acquirente> acquirenteCheck = acquirenteRepository.findById(utenteId);
+        Optional<Acquirente> acquirenteCheck = acquirenteRepository.findById(noleggioRichiesta.getAcquirenteId());
         if (acquirenteCheck.isEmpty()) {
             return Either.left(new Error(512, "acquirente non presente"));
         }
-        Optional<Venditore> venditoreCheck = venditoreRepository.findById(venditoreId);
+        Optional<Venditore> venditoreCheck = venditoreRepository.findById(noleggioRichiesta.getVenditoreId());
         if (venditoreCheck.isEmpty()) {
             return Either.left(new Error(513, "venditore non presente"));
         }
@@ -56,11 +56,11 @@ public class NoleggioService {
         nuovoNoleggio.setVeicolo(veicoloCheck.get());
         nuovoNoleggio.setAcquirente(acquirenteCheck.get());
         nuovoNoleggio.setVenditore(venditoreCheck.get());
-        nuovoNoleggio.setPagato(pagato);
+        nuovoNoleggio.setPagato(noleggioRichiesta.isPagato());
         veicoloCheck.get().setStato(StatoVeicolo.NON_DISPONIBILE);
         nuovoNoleggio.setInizioNoleggio(Date.valueOf(LocalDate.now()));
-        nuovoNoleggio.setFineNoleggio(Date.valueOf(LocalDate.now().plusDays(giorni)));
-        nuovoNoleggio.setPrezzoTotale(prezzoTotale(giorni));
+        nuovoNoleggio.setFineNoleggio(Date.valueOf(LocalDate.now().plusDays(noleggioRichiesta.getGiorni())));
+        nuovoNoleggio.setPrezzoTotale(prezzoTotale(noleggioRichiesta.getGiorni()));
         noleggioRepository.saveAndFlush(nuovoNoleggio);
         return Either.right(nuovoNoleggio);
     }
