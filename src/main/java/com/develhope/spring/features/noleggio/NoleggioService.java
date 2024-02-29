@@ -85,4 +85,7 @@ public class NoleggioService {
    public List<Noleggio> findByAcquirenteId(Long id){
         return noleggioRepository.checkNoleggiAcquirenteAttivi(id);
    }
+    public List<Noleggio> findByVenditoreId(Long id){
+        return noleggioRepository.checkNoleggiVenditoreAttivi(id);
+    }
 }

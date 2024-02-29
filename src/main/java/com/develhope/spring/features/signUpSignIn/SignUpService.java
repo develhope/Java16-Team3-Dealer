@@ -88,7 +88,7 @@ public class SignUpService {
         return ResponseEntity.status(601).body("Password Errata! Reinserire Password");
     }
 
-    public ResponseEntity<String> adminEliminaUtenza(Long id){
+    public ResponseEntity<String> adminEliminaAcquirente(Long id){
         Optional<Acquirente> acquirente = acquirenteRepository.findById(id);
         List<OrdineAcquisto> ordini = ordineAcquistoRepository.checkOrdiniAcquistiAcquirenteAttivi(id);
         List<Noleggio> noleggi = noleggioRepository.checkNoleggiAcquirenteAttivi(id);
@@ -101,6 +101,21 @@ public class SignUpService {
             }
         }else {
             return ResponseEntity.status(603).body("Noleggi o ordini in corso, impossibile eliminare quest' acquirente al momento");
+        }
+    }
+    public ResponseEntity<String> adminEliminaVenditore(Long id){
+        Optional<Venditore> venditore = venditoreRepository.findById(id);
+        List<OrdineAcquisto> ordini = ordineAcquistoRepository.checkOrdiniAcquistiVenditoreAttivi(id);
+        List<Noleggio> noleggi = noleggioRepository.checkNoleggiVenditoreAttivi(id);
+        if(noleggi.isEmpty() && ordini.isEmpty()) {
+            if (venditore.isPresent()) {
+                venditoreRepository.deleteById(id);
+                return ResponseEntity.status(600).body("Venditore Eliminato Correttamente");
+            } else {
+                return ResponseEntity.status(602).body("Venditore non trovato");
+            }
+        }else {
+            return ResponseEntity.status(603).body("Noleggi o ordini in corso, impossibile eliminare questo Venditore al momento");
         }
     }
 

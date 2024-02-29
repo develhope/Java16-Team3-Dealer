@@ -160,7 +160,17 @@ public class AmministratoreController {
     @Operation(summary = "Questo metodo permette di cancellare l' account di un Acquirente, eccetto se ha ancora noleggi/ordini/acquisti in corso")
     @DeleteMapping("/account/elimina/acquirente/{id}")
     public ResponseEntity<String> eliminaAcquirente(@PathVariable Long id){
-        return signUpService.adminEliminaUtenza(id);
+        return signUpService.adminEliminaAcquirente(id);
+    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "600", description = "OK"),
+            @ApiResponse(responseCode = "602", description = "VENDITORE NON TROVATO"),
+            @ApiResponse(responseCode = "603", description = "NOLEGGI/ORDINI/ACQUISTI IN CORSO, MOMENTANEAMENTE IMPOSSIBILE ELIMINARE ACCOUNT" )
+    })
+    @Operation(summary = "Questo metodo permette di cancellare l' account di un Venditore, eccetto se ha ancora noleggi/ordini/acquisti in corso")
+    @DeleteMapping("/account/elimina/venditore/{id}")
+    public ResponseEntity<String> eliminaVenditore(@PathVariable Long id){
+        return signUpService.adminEliminaVenditore(id);
     }
 
 
