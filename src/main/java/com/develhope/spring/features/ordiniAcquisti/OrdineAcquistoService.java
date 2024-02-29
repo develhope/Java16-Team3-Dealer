@@ -13,7 +13,6 @@ import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -98,5 +97,8 @@ public class OrdineAcquistoService {
         }else{
             return Either.right(checkOrdine.get());
         }
+    }
+    public List<OrdineAcquisto> findByAcquirenteId(Long id){
+        return ordineAcquistoRepository.checkOrdiniAcquistiAcquirenteAttivi(id);
     }
 }

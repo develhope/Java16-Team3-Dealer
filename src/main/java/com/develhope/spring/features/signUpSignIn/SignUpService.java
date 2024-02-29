@@ -4,13 +4,17 @@ import com.develhope.spring.features.acquirente.Acquirente;
 import com.develhope.spring.features.acquirente.AcquirenteRepository;
 import com.develhope.spring.features.amministratore.Amministratore;
 import com.develhope.spring.features.amministratore.AmministratoreRepository;
+import com.develhope.spring.features.noleggio.Noleggio;
+import com.develhope.spring.features.noleggio.NoleggioRepository;
+import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
+import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoRepository;
 import com.develhope.spring.features.venditore.Venditore;
 import com.develhope.spring.features.venditore.VenditoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +25,10 @@ public class SignUpService {
     private VenditoreRepository venditoreRepository;
     @Autowired
     private AmministratoreRepository amministratoreRepository;
+    @Autowired
+    private OrdineAcquistoRepository ordineAcquistoRepository;
+    @Autowired
+    private NoleggioRepository noleggioRepository;
 
     @Autowired
     private IDLogin idLogin;
@@ -78,6 +86,22 @@ public class SignUpService {
                 return ResponseEntity.status(600).body("Acquirente Eliminato Correttamente");
             }
         return ResponseEntity.status(601).body("Password Errata! Reinserire Password");
+    }
+
+    public ResponseEntity<String> adminEliminaUtenza(Long id){
+        Optional<Acquirente> acquirente = acquirenteRepository.findById(id);
+        List<OrdineAcquisto> ordini = ordineAcquistoRepository.checkOrdiniAcquistiAcquirenteAttivi(id);
+        List<Noleggio> noleggi = noleggioRepository.checkNoleggiAcquirenteAttivi(id);
+        if(noleggi.isEmpty() && ordini.isEmpty()) {
+            if (acquirente.isPresent()) {
+                acquirenteRepository.deleteById(id);
+                return ResponseEntity.status(600).body("Acquirente Eliminato Correttamente");
+            } else {
+                return ResponseEntity.status(602).body("Acquirente non trovato");
+            }
+        }else {
+            return ResponseEntity.status(603).body("Noleggi o ordini in corso, impossibile eliminare quest' acquirente al momento");
+        }
     }
 
 }

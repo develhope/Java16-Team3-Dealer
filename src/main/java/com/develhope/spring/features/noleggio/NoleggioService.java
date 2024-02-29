@@ -5,14 +5,11 @@ import com.develhope.spring.features.acquirente.AcquirenteRepository;
 import com.develhope.spring.features.shared.Error;
 import com.develhope.spring.features.veicolo.StatoVeicolo;
 import com.develhope.spring.features.veicolo.Veicolo;
-import com.develhope.spring.features.veicolo.VeicoloRepository;
 import com.develhope.spring.features.veicolo.VeicoloService;
 import com.develhope.spring.features.venditore.Venditore;
 import com.develhope.spring.features.venditore.VenditoreRepository;
 import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -85,4 +82,7 @@ public class NoleggioService {
         BigDecimal prezzoTotale = noleggio.getPrezzoGiornaliero().multiply(BigDecimal.valueOf(giorni));
         return prezzoTotale;
     }
+   public List<Noleggio> findByAcquirenteId(Long id){
+        return noleggioRepository.checkNoleggiAcquirenteAttivi(id);
+   }
 }
