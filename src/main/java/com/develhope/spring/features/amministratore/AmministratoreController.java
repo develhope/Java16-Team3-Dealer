@@ -32,9 +32,35 @@ public class AmministratoreController {
     private OrdineAcquistoService ordineAcquistoService;
     @Autowired
     private NoleggioService noleggioService;
-    @PostMapping("/acquisto/creazione/{veicoloId}")
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "510", description = "VEICOLO NON PRESENTE"),
+            @ApiResponse(responseCode = "511", description = "VEICOLO NON DISPONIBILE"),
+            @ApiResponse(responseCode = "512", description = "ACQUIRENTE NON PRESENTE"),
+            @ApiResponse(responseCode = "513", description = "VENDITORE NON PRESENTE")
+    })
+    @Operation(summary = "Questo metodo permette di effettuare un acquisto di un veicolo disponibile")
+    @PostMapping("/acquisto/creazione")
     public ResponseEntity<?> creaAcquisto(@RequestBody OrdineAcquistoRichiesta ordineAcquistoRichiesta){
         Either<Error, OrdineAcquisto> result = ordineAcquistoService.creaAcquisto(ordineAcquistoRichiesta);
+        if (result.isLeft()) {
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
+        } else {
+            return ResponseEntity.ok(result.right());
+        }
+    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "510", description = "VEICOLO NON PRESENTE"),
+            @ApiResponse(responseCode = "511", description = "VEICOLO NON DISPONIBILE"),
+            @ApiResponse(responseCode = "512", description = "ACQUIRENTE NON PRESENTE"),
+            @ApiResponse(responseCode = "513", description = "VENDITORE NON PRESENTE")
+    })
+    @Operation(summary = "Questo metodo permette di effettuare un ordine di un veicolo disponibile")
+    @PostMapping("/ordine/creazione")
+    public ResponseEntity<?> creaOrdine(@RequestBody OrdineAcquistoRichiesta ordineAcquistoRichiesta){
+        Either<Error, OrdineAcquisto> result = ordineAcquistoService.creaOrdine(ordineAcquistoRichiesta);
         if (result.isLeft()) {
             return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         } else {

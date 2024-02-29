@@ -28,19 +28,19 @@ public class OrdineAcquistoService {
     @Autowired
     private VenditoreRepository venditoreRepository;
 
-    public Either<Error,OrdineAcquisto> creaOrdine(Long id, Long acquirenteId, Long venditoreId, BigDecimal anticipo, boolean pagato) {
-        Optional<Veicolo> veicoloCheck = veicoloService.findById(id);
+    public Either<Error,OrdineAcquisto> creaOrdine(OrdineAcquistoRichiesta ordineAcquistoRichiesta) {
+        Optional<Veicolo> veicoloCheck = veicoloService.findById(ordineAcquistoRichiesta.getVeicoloId());
         if (veicoloCheck.isEmpty()) {
             return Either.left(new Error(510, "veicolo non presente"));
 
         } else if (!veicoloCheck.get().getStato().equals(StatoVeicolo.ORDINABILE)) {
             return Either.left(new Error(511, "veicolo non disponibile"));
         }
-        Optional<Acquirente> acquirenteCheck = acquirenteRepository.findById(acquirenteId);
+        Optional<Acquirente> acquirenteCheck = acquirenteRepository.findById(ordineAcquistoRichiesta.getAcquirenteId());
         if (acquirenteCheck.isEmpty()) {
             return Either.left(new Error(512, "acquirente non presente"));
         }
-        Optional<Venditore> venditoreCheck = venditoreRepository.findById(venditoreId);
+        Optional<Venditore> venditoreCheck = venditoreRepository.findById(ordineAcquistoRichiesta.getVenditoreId());
         if (venditoreCheck.isEmpty()) {
             return Either.left(new Error(513, "venditore non presente"));
         }
@@ -48,8 +48,8 @@ public class OrdineAcquistoService {
             nuovoOrdine.setVeicolo(veicoloCheck.get());
             nuovoOrdine.setAcquirente(acquirenteCheck.get());
             nuovoOrdine.setVenditore(venditoreCheck.get());
-            nuovoOrdine.setAnticipo(anticipo);
-            nuovoOrdine.setPagato(pagato);
+            nuovoOrdine.setAnticipo(ordineAcquistoRichiesta.getAnticipo());
+            nuovoOrdine.setPagato(ordineAcquistoRichiesta.isPagato());
             nuovoOrdine.setStato(StatoOrdine.IN_LAVORAZIONE);
             ordineAcquistoRepository.saveAndFlush(nuovoOrdine);
             return Either.right(nuovoOrdine);

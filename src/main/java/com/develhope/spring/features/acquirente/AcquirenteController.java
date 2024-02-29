@@ -163,9 +163,9 @@ public class AcquirenteController {
             @ApiResponse(responseCode = "513", description = "VENDITORE NON PRESENTE")
     })
     @Operation(summary = "Questo metodo permette di effettuare un ordine di un veicolo disponibile")
-    @PostMapping("/veicolo/creaOrdine/{veicoloId}")
-    public ResponseEntity<?> creaOrdine(@PathVariable Long veicoloId,@RequestParam Long acquirenteId,@RequestParam Long venditoreId, @RequestParam BigDecimal anticipo, @RequestParam boolean pagato) {
-        Either<Error,OrdineAcquisto> result = ordineAcquistoService.creaOrdine(veicoloId,acquirenteId,venditoreId, anticipo, pagato);
+    @PostMapping("/veicolo/creaOrdine")
+    public ResponseEntity<?> creaOrdine(@RequestBody OrdineAcquistoRichiesta ordineAcquistoRichiesta) {
+        Either<Error,OrdineAcquisto> result = ordineAcquistoService.creaOrdine(ordineAcquistoRichiesta);
         if(result.isLeft()){
             return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         }else{
