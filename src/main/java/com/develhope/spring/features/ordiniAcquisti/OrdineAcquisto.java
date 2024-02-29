@@ -24,6 +24,8 @@ public class OrdineAcquisto {
     private BigDecimal anticipo;
     @Column(nullable = false)
     private boolean pagato;
+    @Column(nullable = false)
+    private BigDecimal totale;
     @Enumerated(value = EnumType.STRING)
     private StatoOrdine stato;
 

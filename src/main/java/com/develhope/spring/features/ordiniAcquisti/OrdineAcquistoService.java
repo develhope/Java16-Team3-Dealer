@@ -6,6 +6,7 @@ import com.develhope.spring.features.acquirente.AcquirenteRepository;
 import com.develhope.spring.features.shared.Error;
 import com.develhope.spring.features.veicolo.StatoVeicolo;
 import com.develhope.spring.features.veicolo.Veicolo;
+import com.develhope.spring.features.veicolo.VeicoloRepository;
 import com.develhope.spring.features.veicolo.VeicoloService;
 import com.develhope.spring.features.venditore.Venditore;
 import com.develhope.spring.features.venditore.VenditoreRepository;
@@ -13,6 +14,7 @@ import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,14 +23,14 @@ public class OrdineAcquistoService {
     @Autowired
     private OrdineAcquistoRepository ordineAcquistoRepository;
     @Autowired
-    private VeicoloService veicoloService;
+    private VeicoloRepository veicoloRepository;
     @Autowired
     private AcquirenteRepository acquirenteRepository;
     @Autowired
     private VenditoreRepository venditoreRepository;
 
     public Either<Error,OrdineAcquisto> creaOrdine(OrdineAcquistoRichiesta ordineAcquistoRichiesta) {
-        Optional<Veicolo> veicoloCheck = veicoloService.findById(ordineAcquistoRichiesta.getVeicoloId());
+        Optional<Veicolo> veicoloCheck = veicoloRepository.findById(ordineAcquistoRichiesta.getVeicoloId());
         if (veicoloCheck.isEmpty()) {
             return Either.left(new Error(510, "veicolo non presente"));
 
@@ -50,13 +52,14 @@ public class OrdineAcquistoService {
             nuovoOrdine.setAnticipo(ordineAcquistoRichiesta.getAnticipo());
             nuovoOrdine.setPagato(ordineAcquistoRichiesta.isPagato());
             nuovoOrdine.setStato(StatoOrdine.IN_LAVORAZIONE);
+            nuovoOrdine.setTotale(calcoloTotale(veicoloCheck.get()).subtract(ordineAcquistoRichiesta.getAnticipo()));
             ordineAcquistoRepository.saveAndFlush(nuovoOrdine);
             return Either.right(nuovoOrdine);
 
     }
 
     public Either<Error,OrdineAcquisto> creaAcquisto(OrdineAcquistoRichiesta ordineAcquistoRichiesta){
-        Optional<Veicolo> veicoloCheck = veicoloService.findById(ordineAcquistoRichiesta.getVeicoloId());
+        Optional<Veicolo> veicoloCheck = veicoloRepository.findById(ordineAcquistoRichiesta.getVeicoloId());
         if (veicoloCheck.isEmpty()) {
             return Either.left(new Error(510, "veicolo non presente"));
 
@@ -78,6 +81,7 @@ public class OrdineAcquistoService {
             nuovoAcquisto.setAnticipo(ordineAcquistoRichiesta.getAnticipo());
             nuovoAcquisto.setPagato(ordineAcquistoRichiesta.isPagato());
             nuovoAcquisto.setStato(StatoOrdine.IN_LAVORAZIONE);
+            nuovoAcquisto.setTotale(calcoloTotale(veicoloCheck.get()).subtract(ordineAcquistoRichiesta.getAnticipo()));
             ordineAcquistoRepository.saveAndFlush(nuovoAcquisto);
             return Either.right(nuovoAcquisto);
     }
@@ -100,5 +104,8 @@ public class OrdineAcquistoService {
     }
     public List<OrdineAcquisto> findByAcquirenteId(Long id){
         return ordineAcquistoRepository.checkOrdiniAcquistiAcquirenteAttivi(id);
+    }
+    public BigDecimal calcoloTotale(Veicolo veicolo){
+        return veicolo.getPrezzo().subtract(veicolo.getPrezzo().divide(BigDecimal.valueOf(100)).multiply(BigDecimal.valueOf(veicolo.getPercentualeSconto())));
     }
 }
