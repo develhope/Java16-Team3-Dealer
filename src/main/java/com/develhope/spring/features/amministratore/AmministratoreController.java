@@ -1,5 +1,6 @@
 package com.develhope.spring.features.amministratore;
 
+import com.develhope.spring.features.acquirente.AcquirenteService;
 import com.develhope.spring.features.noleggio.Noleggio;
 import com.develhope.spring.features.noleggio.NoleggioRichiesta;
 import com.develhope.spring.features.noleggio.NoleggioService;
@@ -7,6 +8,7 @@ import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoRichiesta;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoService;
 import com.develhope.spring.features.shared.Error;
+import com.develhope.spring.features.signUpSignIn.SignUpService;
 import com.develhope.spring.features.veicolo.StatoVeicolo;
 import com.develhope.spring.features.veicolo.Veicolo;
 import com.develhope.spring.features.veicolo.VeicoloService;
@@ -33,6 +35,8 @@ public class AmministratoreController {
     private OrdineAcquistoService ordineAcquistoService;
     @Autowired
     private NoleggioService noleggioService;
+    @Autowired
+    private SignUpService signUpService;
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -146,6 +150,17 @@ public class AmministratoreController {
     @DeleteMapping("/acquisto/elimina/{id}")
     public void eliminaAcquisto(@PathVariable Long id){
         ordineAcquistoService.deleteOrderById(id);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "600", description = "OK"),
+            @ApiResponse(responseCode = "602", description = "ACQUIRENTE NON TROVATO"),
+            @ApiResponse(responseCode = "603", description = "NOLEGGI/ORDINI/ACQUISTI IN CORSO, MOMENTANEAMENTE IMPOSSIBILE ELIMINARE ACCOUNT" )
+    })
+    @Operation(summary = "Questo metodo permette di cancellare l' account di un Acquirente, eccetto se ha ancora noleggi/ordini/acquisti in corso")
+    @DeleteMapping("/account/elimina/acquirente/{id}")
+    public ResponseEntity<String> eliminaAcquirente(@PathVariable Long id){
+        return signUpService.adminEliminaUtenza(id);
     }
 
 
