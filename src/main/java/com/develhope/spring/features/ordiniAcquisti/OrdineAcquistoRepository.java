@@ -12,4 +12,6 @@ public interface OrdineAcquistoRepository extends JpaRepository<OrdineAcquisto,L
     List<OrdineAcquisto> findByStato(StatoOrdine stato);
     @Query(value = "SELECT * FROM ordine_acquisto WHERE acquirente_id = :id AND stato <> 'COMPLETATO'",nativeQuery = true)
     List<OrdineAcquisto> checkOrdiniAcquistiAcquirenteAttivi(@Param("id") Long id);
+    @Query(value = "SELECT * FROM ordine_acquisto WHERE venditore_id = :id AND stato <> 'COMPLETATO'", nativeQuery = true)
+    List<OrdineAcquisto> checkOrdiniAcquistiVenditoreAttivi(@Param("id") Long id);
 }
