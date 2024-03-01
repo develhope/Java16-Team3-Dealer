@@ -13,6 +13,7 @@ import com.develhope.spring.features.signUpSignIn.SignUpService;
 import com.develhope.spring.features.veicolo.StatoVeicolo;
 import com.develhope.spring.features.veicolo.Veicolo;
 import com.develhope.spring.features.veicolo.VeicoloService;
+import com.develhope.spring.features.venditore.Venditore;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -181,7 +182,17 @@ public class AmministratoreController {
     @Operation(summary = "Questo metodo permette di modificare l'utente")
     @PatchMapping("/modificaUtente")
     public ResponseEntity modificaDatiUtente(@RequestBody Acquirente acquirente, @RequestParam Long id) {
-        return amministratoreService.modificaDati(id, acquirente);
+        return amministratoreService.modificaDatiAcquirente(id, acquirente);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+    })
+    @Operation(summary = "Questo metodo permette di modificare un venditore")
+    @PatchMapping("/modificaUtente")
+    public ResponseEntity modificaVenditore(@RequestBody Venditore venditore, @RequestParam Long id) {
+        return amministratoreService.modificaDatiVenditore(id, venditore);
     }
 
 
