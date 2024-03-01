@@ -127,6 +127,15 @@ public class AmministratoreController {
             return ResponseEntity.ok(result.right());
         }
     }
+    @PatchMapping("/ordine/modifica/{id}")
+    public ResponseEntity<?> modificaOrdine(@PathVariable Long id, @RequestBody OrdineAcquistoRichiesta ordineAcquistoRichiesta){
+        Either<Error, OrdineAcquisto> result = ordineAcquistoService.modificaOrdine(id,ordineAcquistoRichiesta);
+        if (result.isLeft()) {
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
+        } else {
+            return ResponseEntity.ok(result.right());
+        }
+    }
 
     @DeleteMapping("/veicolo/elimina/{id}")
     public ResponseEntity cancellaVeicoloId(@PathVariable Long id) {
@@ -180,7 +189,7 @@ public class AmministratoreController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
     @Operation(summary = "Questo metodo permette di modificare l'utente")
-    @PatchMapping("/modificaUtente")
+    @PatchMapping("/account/modifica/acquirente")
     public ResponseEntity modificaDatiUtente(@RequestBody Acquirente acquirente, @RequestParam Long id) {
         return amministratoreService.modificaDatiAcquirente(id, acquirente);
     }
@@ -190,7 +199,7 @@ public class AmministratoreController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
     @Operation(summary = "Questo metodo permette di modificare un venditore")
-    @PatchMapping("/modificaUtente")
+    @PatchMapping("/account/modifica/venditore")
     public ResponseEntity modificaVenditore(@RequestBody Venditore venditore, @RequestParam Long id) {
         return amministratoreService.modificaDatiVenditore(id, venditore);
     }
