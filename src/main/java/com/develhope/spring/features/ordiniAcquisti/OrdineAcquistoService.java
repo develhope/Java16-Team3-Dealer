@@ -7,7 +7,6 @@ import com.develhope.spring.features.shared.Error;
 import com.develhope.spring.features.veicolo.StatoVeicolo;
 import com.develhope.spring.features.veicolo.Veicolo;
 import com.develhope.spring.features.veicolo.VeicoloRepository;
-import com.develhope.spring.features.veicolo.VeicoloService;
 import com.develhope.spring.features.venditore.Venditore;
 import com.develhope.spring.features.venditore.VenditoreRepository;
 import io.vavr.control.Either;
@@ -16,7 +15,10 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @Service
 public class OrdineAcquistoService {
@@ -107,5 +109,23 @@ public class OrdineAcquistoService {
     }
     public BigDecimal calcoloTotale(Veicolo veicolo){
         return veicolo.getPrezzo().subtract(veicolo.getPrezzo().divide(BigDecimal.valueOf(100)).multiply(BigDecimal.valueOf(veicolo.getPercentualeSconto())));
+    }
+
+    public Either<Error,OrdineAcquisto> modificaOrdine(Long id, OrdineAcquistoRichiesta ordineAcquistoRichiesta){
+        Optional<OrdineAcquisto> checkOrdine = ordineAcquistoRepository.findById(id);
+        if(checkOrdine.isEmpty()){
+            return Either.left(new Error(610,"Ordine non trovato"));
+        }
+        return Either.right(checkOrdine.map(ordineId -> {
+            Venditore venditore = venditoreRepository.findById(ordineAcquistoRichiesta.getVenditoreId()).orElse(null);
+            Veicolo veicolo = veicoloRepository.findById(ordineAcquistoRichiesta.getVeicoloId()).orElse(null);
+            // Aggiorna solo i campi non nulli
+            ordineId.setVenditore(Objects.nonNull(ordineAcquistoRichiesta.getVenditoreId()) ? venditore : ordineId.getVenditore());
+            ordineId.setVeicolo(Objects.nonNull(ordineAcquistoRichiesta.getVeicoloId()) ? veicolo : ordineId.getVeicolo());
+            ordineId.setAnticipo(Objects.nonNull(ordineAcquistoRichiesta.getAnticipo()) ? ordineAcquistoRichiesta.getAnticipo() : ordineId.getAnticipo());
+            ordineId.setPagato(Objects.nonNull(ordineAcquistoRichiesta.isPagato()) ? ordineAcquistoRichiesta.isPagato() : ordineId.isPagato());
+
+            return ordineAcquistoRepository.saveAndFlush(ordineId);
+        }).orElse(null));
     }
 }
