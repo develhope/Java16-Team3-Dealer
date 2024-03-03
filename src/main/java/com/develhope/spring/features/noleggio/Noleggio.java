@@ -29,6 +29,7 @@ public class Noleggio {
     private boolean pagato;
     private BigDecimal prezzoGiornaliero = BigDecimal.valueOf(50);
     private BigDecimal prezzoTotale;
+    private int giorni;
 
     @ManyToOne
     @JoinColumn(name = "acquirente_id") //, referencedColumnName = "id"
