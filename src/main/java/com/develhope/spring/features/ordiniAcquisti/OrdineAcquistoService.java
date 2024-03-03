@@ -3,6 +3,7 @@ package com.develhope.spring.features.ordiniAcquisti;
 
 import com.develhope.spring.features.acquirente.Acquirente;
 import com.develhope.spring.features.acquirente.AcquirenteRepository;
+import com.develhope.spring.features.noleggio.Noleggio;
 import com.develhope.spring.features.shared.Error;
 import com.develhope.spring.features.veicolo.StatoVeicolo;
 import com.develhope.spring.features.veicolo.Veicolo;
@@ -127,5 +128,14 @@ public class OrdineAcquistoService {
 
             return ordineAcquistoRepository.saveAndFlush(ordineId);
         }).orElse(null));
+    }
+    public Either<Error, OrdineAcquisto> eliminaOrdine(Long ordineId) {
+        Optional<OrdineAcquisto> checkOrdine = ordineAcquistoRepository.findById(ordineId);
+        if(checkOrdine.isEmpty()){
+            return Either.left(new Error(610,"Ordine non trovato"));
+        }else {
+            ordineAcquistoRepository.deleteById(ordineId);
+            return Either.left(new Error(204,"Ordine eliminato correttamente"));
+        }
     }
 }

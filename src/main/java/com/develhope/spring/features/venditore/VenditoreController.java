@@ -71,7 +71,22 @@ public class VenditoreController {
     @Operation(summary = "Questo metodo permette di modificare un ordine")
     @PatchMapping("/modificaOrdine")
     public ResponseEntity<?> modificaOrdine(@RequestBody OrdineAcquistoRichiesta ordineAcquistoRichiesta){
-        Either<Error, OrdineAcquisto> result = ordineAcquistoService.modificaOrdine(ordineAcquistoRichiesta.getVeicoloId(), ordineAcquistoRichiesta);
+        Either<Error, OrdineAcquisto> result = ordineAcquistoService.eliminaOrdine(ordineAcquistoRichiesta.getVeicoloId());
+        if(result.isLeft()){
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
+        }else{
+            return ResponseEntity.ok(result.right());
+        }
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "610", description = "Ordine non trovato")
+    })
+    @Operation(summary = "Questo metodo permette di cancellare un ordine")
+    @DeleteMapping("/cancellaOrdine/{idOrdine}")
+    public ResponseEntity<?> cancellaOrdine(@PathVariable Long idOrdine){
+        Either<Error, OrdineAcquisto> result = ordineAcquistoService.eliminaOrdine(idOrdine);
         if(result.isLeft()){
             return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         }else{
