@@ -53,10 +53,25 @@ public class VenditoreController {
             @ApiResponse(responseCode = "512", description = "ACQUIRENTE NON PRESENTE"),
             @ApiResponse(responseCode = "513", description = "VENDITORE NON PRESENTE")
     })
-    @Operation(summary = "Questo metodo permette di effettuare un noleggio")
+    @Operation(summary = "Questo metodo permette di effettuare un ordine")
     @PostMapping("/creaOrdine")
     public ResponseEntity<?> creaOrdine(@RequestBody OrdineAcquistoRichiesta ordineAcquistoRichiesta){
         Either<Error, OrdineAcquisto> result = ordineAcquistoService.creaOrdine(ordineAcquistoRichiesta);
+        if(result.isLeft()){
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
+        }else{
+            return ResponseEntity.ok(result.right());
+        }
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "610", description = "Ordine non trovato")
+    })
+    @Operation(summary = "Questo metodo permette di modificare un ordine")
+    @PatchMapping("/modificaOrdine")
+    public ResponseEntity<?> modificaOrdine(@RequestBody OrdineAcquistoRichiesta ordineAcquistoRichiesta){
+        Either<Error, OrdineAcquisto> result = ordineAcquistoService.modificaOrdine(ordineAcquistoRichiesta.getVeicoloId(), ordineAcquistoRichiesta);
         if(result.isLeft()){
             return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         }else{
@@ -78,4 +93,5 @@ public class VenditoreController {
             return ResponseEntity.ok(result.right());
         }
     }
+
 }
