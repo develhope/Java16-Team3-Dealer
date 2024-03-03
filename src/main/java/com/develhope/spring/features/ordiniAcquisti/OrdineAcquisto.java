@@ -29,6 +29,7 @@ public class OrdineAcquisto {
     @Enumerated(value = EnumType.STRING)
     private StatoOrdine stato;
 
+
     @ManyToOne
     @JoinColumn(name = "acquirente_id")//, referencedColumnName = "id"
     private Acquirente acquirente;

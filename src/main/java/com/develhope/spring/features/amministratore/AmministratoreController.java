@@ -49,7 +49,7 @@ public class AmministratoreController {
     })
     @Operation(summary = "Questo metodo permette di effettuare un acquisto di un veicolo disponibile")
     @PostMapping("/acquisto/creazione")
-    public ResponseEntity<?> creaAcquisto(@RequestBody OrdineAcquistoRichiesta ordineAcquistoRichiesta){
+    public ResponseEntity<?> creaAcquisto(@RequestBody OrdineAcquistoRichiesta ordineAcquistoRichiesta) {
         Either<Error, OrdineAcquisto> result = ordineAcquistoService.creaAcquisto(ordineAcquistoRichiesta);
         if (result.isLeft()) {
             return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
@@ -57,6 +57,7 @@ public class AmministratoreController {
             return ResponseEntity.ok(result.right());
         }
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "510", description = "VEICOLO NON PRESENTE"),
@@ -66,7 +67,7 @@ public class AmministratoreController {
     })
     @Operation(summary = "Questo metodo permette di effettuare un ordine di un veicolo disponibile")
     @PostMapping("/ordine/creazione")
-    public ResponseEntity<?> creaOrdine(@RequestBody OrdineAcquistoRichiesta ordineAcquistoRichiesta){
+    public ResponseEntity<?> creaOrdine(@RequestBody OrdineAcquistoRichiesta ordineAcquistoRichiesta) {
         Either<Error, OrdineAcquisto> result = ordineAcquistoService.creaOrdine(ordineAcquistoRichiesta);
         if (result.isLeft()) {
             return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
@@ -74,6 +75,7 @@ public class AmministratoreController {
             return ResponseEntity.ok(result.right());
         }
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "510", description = "VEICOLO NON PRESENTE"),
@@ -83,11 +85,11 @@ public class AmministratoreController {
     })
     @Operation(summary = "Questo metodo permette di effettuare un noleggio")
     @PostMapping("/noleggio/creazione")
-    public ResponseEntity<?> creaNoleggio(@RequestBody NoleggioRichiesta noleggioRichiesta){
+    public ResponseEntity<?> creaNoleggio(@RequestBody NoleggioRichiesta noleggioRichiesta) {
         Either<Error, Noleggio> result = noleggioService.creaNoleggio(noleggioRichiesta);
-        if(result.isLeft()){
+        if (result.isLeft()) {
             return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
-        }else{
+        } else {
             return ResponseEntity.ok(result.right());
         }
     }
@@ -127,9 +129,31 @@ public class AmministratoreController {
             return ResponseEntity.ok(result.right());
         }
     }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "610", description = "ORDINE NON TROVATO")
+    })
+    @Operation(summary = "Questo metodo permette di modificare un ordine")
     @PatchMapping("/ordine/modifica/{id}")
-    public ResponseEntity<?> modificaOrdine(@PathVariable Long id, @RequestBody OrdineAcquistoRichiesta ordineAcquistoRichiesta){
-        Either<Error, OrdineAcquisto> result = ordineAcquistoService.modificaOrdine(id,ordineAcquistoRichiesta);
+    public ResponseEntity<?> modificaOrdine(@PathVariable Long id, @RequestBody OrdineAcquistoRichiesta ordineAcquistoRichiesta) {
+        Either<Error, OrdineAcquisto> result = ordineAcquistoService.modificaOrdine(id, ordineAcquistoRichiesta);
+        if (result.isLeft()) {
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
+        } else {
+            return ResponseEntity.ok(result.right());
+        }
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "611", description = "NOLEGGIO NON TROVATO"),
+            @ApiResponse(responseCode = "613", description = "DATA INIZIO NOLEGGIO O QUANTITà GIORNI NON REGISTRATI")
+    })
+    @Operation(summary = "Questo metodo permette di modificare un noleggio")
+    @PatchMapping("/noleggio/modifica/{id}")
+    public ResponseEntity<?> modificaNoleggio(@PathVariable Long id, @RequestBody NoleggioRichiesta noleggioRichiesta) {
+        Either<Error, Object> result = noleggioService.modificaNoleggio(id, noleggioRichiesta);
         if (result.isLeft()) {
             return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         } else {
@@ -159,28 +183,29 @@ public class AmministratoreController {
     }
 
     @DeleteMapping("/acquisto/elimina/{id}")
-    public void eliminaAcquisto(@PathVariable Long id){
+    public void eliminaAcquisto(@PathVariable Long id) {
         ordineAcquistoService.deleteOrderById(id);
     }
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "600", description = "OK"),
             @ApiResponse(responseCode = "602", description = "ACQUIRENTE NON TROVATO"),
-            @ApiResponse(responseCode = "603", description = "NOLEGGI/ORDINI/ACQUISTI IN CORSO, MOMENTANEAMENTE IMPOSSIBILE ELIMINARE ACCOUNT" )
+            @ApiResponse(responseCode = "603", description = "NOLEGGI/ORDINI/ACQUISTI IN CORSO, MOMENTANEAMENTE IMPOSSIBILE ELIMINARE ACCOUNT")
     })
     @Operation(summary = "Questo metodo permette di cancellare l' account di un Acquirente, eccetto se ha ancora noleggi/ordini/acquisti in corso")
     @DeleteMapping("/account/elimina/acquirente/{id}")
-    public ResponseEntity<String> eliminaAcquirente(@PathVariable Long id){
+    public ResponseEntity<String> eliminaAcquirente(@PathVariable Long id) {
         return signUpService.adminEliminaAcquirente(id);
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "600", description = "OK"),
             @ApiResponse(responseCode = "602", description = "VENDITORE NON TROVATO"),
-            @ApiResponse(responseCode = "603", description = "NOLEGGI/ORDINI/ACQUISTI IN CORSO, MOMENTANEAMENTE IMPOSSIBILE ELIMINARE ACCOUNT" )
+            @ApiResponse(responseCode = "603", description = "NOLEGGI/ORDINI/ACQUISTI IN CORSO, MOMENTANEAMENTE IMPOSSIBILE ELIMINARE ACCOUNT")
     })
     @Operation(summary = "Questo metodo permette di cancellare l' account di un Venditore, eccetto se ha ancora noleggi/ordini/acquisti in corso")
     @DeleteMapping("/account/elimina/venditore/{id}")
-    public ResponseEntity<String> eliminaVenditore(@PathVariable Long id){
+    public ResponseEntity<String> eliminaVenditore(@PathVariable Long id) {
         return signUpService.adminEliminaVenditore(id);
     }
 
