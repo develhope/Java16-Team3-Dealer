@@ -14,6 +14,7 @@ import com.develhope.spring.features.veicolo.StatoVeicolo;
 import com.develhope.spring.features.veicolo.Veicolo;
 import com.develhope.spring.features.veicolo.VeicoloService;
 import com.develhope.spring.features.venditore.Venditore;
+import com.develhope.spring.features.venditore.VenditoreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -22,7 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
+
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +41,9 @@ public class AmministratoreController {
     private NoleggioService noleggioService;
     @Autowired
     private SignUpService signUpService;
+
+    @Autowired
+    private VenditoreService venditoreService;
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -97,6 +102,16 @@ public class AmministratoreController {
     @PostMapping("/veicolo/creazione")
     public Veicolo creaVeicolo(@RequestBody Veicolo veicolo) {
         return veicoloService.saveVeicolo(veicolo);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "513", description = "VENDITORE NON PRESENTE")
+    })
+    @Operation(summary = "Questo metodo permette di verificare le vendite registrate in un certo lasso di tempo")
+    @GetMapping("/statistiche/venditore/verificaVendite/{venditoreId}")
+    public List<OrdineAcquisto> verificaVenditeRangeTempo(@PathVariable Long venditoreId, @RequestParam Date data1, @RequestParam Date data2){
+        return ordineAcquistoService.verificaVenditeRangeTempo(venditoreId, data1, data2);
     }
 
     @GetMapping("/veicolo/ricercaStato")
