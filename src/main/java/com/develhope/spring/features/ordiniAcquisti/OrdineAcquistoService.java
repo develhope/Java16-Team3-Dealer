@@ -92,14 +92,17 @@ public class OrdineAcquistoService {
         nuovoAcquisto.setAcquirente(acquirenteCheck.get());
         nuovoAcquisto.setVenditore(venditoreCheck.get());
         nuovoAcquisto.setAnticipo(ordineAcquistoRichiesta.getAnticipo());
-        if (Objects.equals(ordineAcquistoRichiesta.getAnticipo(), veicoloCheck.get().getPrezzo())) {
-            ordineAcquistoRichiesta.setPagato(true);
+
+        BigDecimal prezzoScontato = calcoloTotale(veicoloCheck.get());
+        BigDecimal totale = calcoloTotale(veicoloCheck.get()).subtract(ordineAcquistoRichiesta.getAnticipo());
+        nuovoAcquisto.setTotale(totale);
+        if (Objects.equals(ordineAcquistoRichiesta.getAnticipo(),prezzoScontato)) {
+            nuovoAcquisto.setPagato(true);
             nuovoAcquisto.setStato(StatoOrdine.COMPLETATO);
         } else {
             nuovoAcquisto.setStato(StatoOrdine.IN_LAVORAZIONE);
-            ordineAcquistoRichiesta.setPagato(false);
+            nuovoAcquisto.setPagato(false);
         }
-        nuovoAcquisto.setTotale(calcoloTotale(veicoloCheck.get()).subtract(ordineAcquistoRichiesta.getAnticipo()));
         veicoloCheck.get().setStato(StatoVeicolo.NON_DISPONIBILE);
         ordineAcquistoRepository.saveAndFlush(nuovoAcquisto);
         return Either.right(nuovoAcquisto);
