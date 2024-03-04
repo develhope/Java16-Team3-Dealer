@@ -113,6 +113,11 @@ public class AmministratoreController {
     public List<OrdineAcquisto> verificaVenditeRangeTempo(@PathVariable Long venditoreId, @RequestParam Date data1, @RequestParam Date data2){
         return ordineAcquistoService.verificaVenditeRangeTempo(venditoreId, data1, data2);
     }
+    @Operation(summary = "Questo metodo permette di verificare il veicolo più acquistato/ordinato")
+    @GetMapping("/statistiche/veicolo/venditeMaggiori")
+    public Veicolo veicoloPiuVenduto(){
+        return veicoloService.veicoloPiuVenduto();
+    }
 
     @GetMapping("/veicolo/ricercaStato")
     public List<Veicolo> findByStato(@RequestParam StatoVeicolo stato) {

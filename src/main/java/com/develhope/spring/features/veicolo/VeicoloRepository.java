@@ -1,5 +1,6 @@
 package com.develhope.spring.features.veicolo;
 
+import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,5 +22,11 @@ public interface VeicoloRepository extends JpaRepository<Veicolo,Long> {
     List<Veicolo> findByTipo(Tipo tipo);
     List<Veicolo> findByStato(StatoVeicolo stato);
 
-
+    @Query(value = "SELECT v.*, COUNT(oa.veicolo_id) AS numeroVendite " +
+            "FROM ordine_acquisto oa " +
+            "JOIN veicolo v ON v.veicolo_id = oa.veicolo_id " +
+            "GROUP BY v.veicolo_id " +
+            "ORDER BY numeroVendite DESC " +
+            "LIMIT 1", nativeQuery = true)
+    Veicolo veicoloPiuVenduto();
 }
