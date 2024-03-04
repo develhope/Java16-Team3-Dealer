@@ -1,6 +1,7 @@
 package com.develhope.spring.features.venditore;
 
 import com.develhope.spring.features.noleggio.Noleggio;
+import com.develhope.spring.features.noleggio.NoleggioRepository;
 import com.develhope.spring.features.noleggio.NoleggioRichiesta;
 import com.develhope.spring.features.noleggio.NoleggioService;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
@@ -40,6 +41,21 @@ public class VenditoreController {
     @PostMapping("/creaNoleggio")
     public ResponseEntity<?> creaNoleggio(@RequestBody NoleggioRichiesta noleggioRichiesta) {
         Either<Error, Noleggio> result = noleggioService.creaNoleggio(noleggioRichiesta);
+        if(result.isLeft()){
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
+        }else{
+            return ResponseEntity.ok(result.right());
+        }
+    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "611", description = "Noleggio non trovato"),
+            @ApiResponse(responseCode = "612", description = "Data di inizio/fine noleggio non inserita")
+    })
+    @Operation(summary = "Questo metodo permette di modificare un noleggio")
+    @PatchMapping("/modificaNoleggio/{idNoleggio}")
+    public ResponseEntity<?> modificaNoleggio(@PathVariable Long idNoleggio, @RequestBody NoleggioRichiesta noleggioRichiesta){
+        Either<Error, Object> result = noleggioService.modificaNoleggio(idNoleggio, noleggioRichiesta);
         if(result.isLeft()){
             return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         }else{
