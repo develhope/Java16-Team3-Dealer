@@ -104,7 +104,7 @@ public class NoleggioService {
         return Either.right(checkNoleggio.map(noleggio -> {
             Venditore venditore = venditoreRepository.findById(noleggioRichiesta.getVenditoreId()).orElse(null);
             Veicolo veicolo = veicoloRepository.findById(noleggioRichiesta.getVeicoloId()).orElse(null);
-            // Aggiorna solo i campi non nulli
+
             noleggio.setVenditore(Objects.nonNull(noleggioRichiesta.getVenditoreId()) ? venditore : noleggio.getVenditore());
             noleggio.setVeicolo(Objects.nonNull(noleggioRichiesta.getVeicoloId()) ? veicolo : noleggio.getVeicolo());
             noleggio.setInizioNoleggio(Objects.nonNull(noleggioRichiesta.getInizioNoleggio()) ? noleggioRichiesta.getInizioNoleggio() : noleggio.getInizioNoleggio());
@@ -112,7 +112,7 @@ public class NoleggioService {
 
             if(noleggioRichiesta.getInizioNoleggio() != null){
                 if (Objects.nonNull(noleggioRichiesta.getGiorni())) {
-                    // Calcola la nuova data di fineNoleggio
+
                     LocalDate nuovaFineNoleggio = LocalDate.now().plusDays(noleggioRichiesta.getGiorni());
                     noleggio.setFineNoleggio(Date.valueOf(nuovaFineNoleggio));
                     noleggio.setPrezzoTotale(prezzoTotale(noleggioRichiesta.getGiorni()));

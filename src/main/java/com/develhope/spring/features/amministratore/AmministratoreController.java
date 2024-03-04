@@ -160,6 +160,20 @@ public class AmministratoreController {
             return ResponseEntity.ok(result.right());
         }
     }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "612", description = "ACQUISTO NON TROVATO")
+    })
+    @Operation(summary = "Questo metodo permette di modificare un acquisto")
+    @PatchMapping("/acquisto/modifica/{id}")
+    public ResponseEntity<?> modificaAcquisto(@PathVariable Long id, @RequestBody OrdineAcquistoRichiesta ordineAcquistoRichiesta) {
+        Either<Error, OrdineAcquisto> result = ordineAcquistoService.modificaAcquisto(id, ordineAcquistoRichiesta);
+        if (result.isLeft()) {
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
+        } else {
+            return ResponseEntity.ok(result.right());
+        }
+    }
 
     @DeleteMapping("/veicolo/elimina/{id}")
     public ResponseEntity cancellaVeicoloId(@PathVariable Long id) {
