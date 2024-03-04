@@ -47,6 +47,7 @@ public class VenditoreController {
             return ResponseEntity.ok(result.right());
         }
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "611", description = "Noleggio non trovato"),
@@ -62,6 +63,22 @@ public class VenditoreController {
             return ResponseEntity.ok(result.right());
         }
     }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "611", description = "Noleggio non trovato")
+    })
+    @Operation(summary = "Questo metodo permette di cancellare un noleggio")
+    @DeleteMapping("/cancellaNoleggio/{idNoleggio}")
+    public ResponseEntity<?> cancellaNoleggio(@PathVariable Long idNoleggio){
+        Either<Error, Noleggio> result = noleggioService.eliminaNoleggioId(idNoleggio);
+        if(result.isLeft()){
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
+        }else{
+            return ResponseEntity.ok(result.right());
+        }
+    }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "510", description = "VEICOLO NON PRESENTE"),
