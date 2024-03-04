@@ -65,6 +65,7 @@ public class NoleggioService {
         LocalDate nuovaFineNoleggio = noleggioRichiesta.getInizioNoleggio().toLocalDate().plusDays(noleggioRichiesta.getGiorni());
         nuovoNoleggio.setFineNoleggio(Date.valueOf(nuovaFineNoleggio));
         nuovoNoleggio.setPrezzoTotale(prezzoTotale(noleggioRichiesta.getGiorni()));
+        nuovoNoleggio.setGiorni(noleggioRichiesta.getGiorni());
         noleggioRepository.saveAndFlush(nuovoNoleggio);
         return Either.right(nuovoNoleggio);
     }
