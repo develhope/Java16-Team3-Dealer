@@ -191,4 +191,11 @@ public class OrdineAcquistoService {
         }).orElse(null));
 
     }
+    public List<OrdineAcquisto>  verificaVenditeRangeTempo(Long venditoreId, Date data1, Date data2){
+        Optional<Venditore> venditore = venditoreRepository.findById(venditoreId);
+        if(!venditore.isPresent()){
+            new Error(513,"Venditore non presente");
+        }
+        return ordineAcquistoRepository.verificaVenditeRangeTempo(venditoreId, data1, data2);
+    }
 }
