@@ -8,6 +8,7 @@ import lombok.*;
 
 
 import java.math.BigDecimal;
+import java.sql.Date;
 
 @Entity
 @Table
@@ -28,6 +29,8 @@ public class OrdineAcquisto {
     private BigDecimal totale;
     @Enumerated(value = EnumType.STRING)
     private StatoOrdine stato;
+    @Column(nullable = false)
+    private Date dataOrdineAcquisto;
 
 
     @ManyToOne
