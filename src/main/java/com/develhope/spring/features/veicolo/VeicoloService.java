@@ -1,5 +1,6 @@
 package com.develhope.spring.features.veicolo;
 
+import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
 import com.develhope.spring.features.shared.Error;
 import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +106,9 @@ public class VeicoloService {
         return veicoloRepository.findByStato(stato);
     }
 
-
+    public Veicolo veicoloPiuVenduto(){
+        return veicoloRepository.veicoloPiuVenduto();
+    }
 
 
 }
