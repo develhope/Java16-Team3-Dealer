@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -68,6 +70,7 @@ public class OrdineAcquistoService {
             nuovoOrdine.setPagato(false);
         }
         veicoloCheck.get().setStato(StatoVeicolo.NON_DISPONIBILE);
+        nuovoOrdine.setDataOrdineAcquisto(Date.valueOf(LocalDate.now()));
         ordineAcquistoRepository.saveAndFlush(nuovoOrdine);
         return Either.right(nuovoOrdine);
 
@@ -106,6 +109,7 @@ public class OrdineAcquistoService {
             nuovoAcquisto.setPagato(false);
         }
         veicoloCheck.get().setStato(StatoVeicolo.NON_DISPONIBILE);
+        nuovoAcquisto.setDataOrdineAcquisto(Date.valueOf(LocalDate.now()));
         ordineAcquistoRepository.saveAndFlush(nuovoAcquisto);
         return Either.right(nuovoAcquisto);
     }
