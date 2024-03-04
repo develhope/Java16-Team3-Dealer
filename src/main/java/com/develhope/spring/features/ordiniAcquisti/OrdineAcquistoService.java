@@ -11,6 +11,7 @@ import com.develhope.spring.features.veicolo.VeicoloRepository;
 import com.develhope.spring.features.venditore.Venditore;
 import com.develhope.spring.features.venditore.VenditoreRepository;
 import io.vavr.control.Either;
+import io.vavr.control.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -141,7 +142,7 @@ public class OrdineAcquistoService {
         return Either.right(checkOrdine.map(ordineId -> {
             Venditore venditore = venditoreRepository.findById(ordineAcquistoRichiesta.getVenditoreId()).orElse(null);
             Veicolo veicolo = veicoloRepository.findById(ordineAcquistoRichiesta.getVeicoloId()).orElse(null);
-            // Aggiorna solo i campi non nulli
+
             ordineId.setVenditore(Objects.nonNull(ordineAcquistoRichiesta.getVenditoreId()) ? venditore : ordineId.getVenditore());
             ordineId.setVeicolo(Objects.nonNull(ordineAcquistoRichiesta.getVeicoloId()) ? veicolo : ordineId.getVeicolo());
             ordineId.setAnticipo(Objects.nonNull(ordineAcquistoRichiesta.getAnticipo()) ? ordineAcquistoRichiesta.getAnticipo() : ordineId.getAnticipo());
@@ -160,5 +161,25 @@ public class OrdineAcquistoService {
             ordineAcquistoRepository.deleteById(ordineId);
             return Either.left(new Error(204,"Ordine eliminato correttamente"));
         }
+    }
+    public Either<Error,OrdineAcquisto> modificaAcquisto(Long id, OrdineAcquistoRichiesta ordineAcquistoRichiesta){
+        Optional<OrdineAcquisto> checkAcquisto = ordineAcquistoRepository.findById(id);
+        if (checkAcquisto.isEmpty()) {
+            return Either.left(new Error(612, "Acquisto non trovato"));
+        }
+        return Either.right(checkAcquisto.map(acquistoId -> {
+            Venditore venditore = venditoreRepository.findById(ordineAcquistoRichiesta.getVenditoreId()).orElse(null);
+            Veicolo veicolo = veicoloRepository.findById(ordineAcquistoRichiesta.getVeicoloId()).orElse(null);
+
+            acquistoId.setVenditore(Objects.nonNull(ordineAcquistoRichiesta.getVenditoreId()) ? venditore : acquistoId.getVenditore());
+            acquistoId.setVeicolo(Objects.nonNull(ordineAcquistoRichiesta.getVeicoloId()) ? veicolo : acquistoId.getVeicolo());
+            acquistoId.setAnticipo(Objects.nonNull(ordineAcquistoRichiesta.getAnticipo()) ? ordineAcquistoRichiesta.getAnticipo() : acquistoId.getAnticipo());
+            acquistoId.setPagato(Objects.nonNull(ordineAcquistoRichiesta.isPagato()) ? ordineAcquistoRichiesta.isPagato() : acquistoId.isPagato());
+            if (ordineAcquistoRichiesta.isPagato()) {
+                acquistoId.setStato(StatoOrdine.COMPLETATO);
+            }
+            return ordineAcquistoRepository.saveAndFlush(acquistoId);
+        }).orElse(null));
+
     }
 }
