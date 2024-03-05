@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -111,6 +112,9 @@ public class VeicoloService {
     }
     public Veicolo veicoloPiuCostosoVenduto(){
         return veicoloRepository.veicoloPiùCostosoVenduto();
+    }
+    public Veicolo veicoloPiuVendutoRangeTempo(Date data1, Date data2){
+        return veicoloRepository.veicoloPiuVendutoRangeTempo(data1, data2);
     }
 
 

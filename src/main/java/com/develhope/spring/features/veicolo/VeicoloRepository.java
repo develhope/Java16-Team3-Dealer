@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 
 @Repository
@@ -39,4 +40,15 @@ public interface VeicoloRepository extends JpaRepository<Veicolo,Long> {
             "ORDER BY v.prezzo DESC " +
             "LIMIT 1",nativeQuery = true)
     Veicolo veicoloPiùCostosoVenduto();
+
+    @Query(value = "SELECT v.*, COUNT(oa.veicolo_id) AS numeroVendite " +
+            "FROM ordine_acquisto oa " +
+            "JOIN veicolo v  " +
+            "ON v.veicolo_id = oa.veicolo_id " +
+            "WHERE oa.data_ordine_acquisto " +
+            "BETWEEN :data1 AND :data2 " +
+            "GROUP BY v.veicolo_id " +
+            "ORDER BY numeroVendite DESC " +
+            "LIMIT 1",nativeQuery = true)
+    Veicolo veicoloPiuVendutoRangeTempo(@Param("data1")Date data1, @Param("data2") Date data2);
 }
