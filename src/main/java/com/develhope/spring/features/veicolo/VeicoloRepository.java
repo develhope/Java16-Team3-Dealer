@@ -29,4 +29,14 @@ public interface VeicoloRepository extends JpaRepository<Veicolo,Long> {
             "ORDER BY numeroVendite DESC " +
             "LIMIT 1", nativeQuery = true)
     Veicolo veicoloPiuVenduto();
+
+    @Query(value = "SELECT v.* " +
+            "FROM ordine_acquisto oa " +
+            "JOIN veicolo v " +
+            "ON v.veicolo_id = oa.veicolo_id " +
+            "GROUP BY v.modello " +
+            "HAVING MAX(v.prezzo) " +
+            "ORDER BY v.prezzo DESC " +
+            "LIMIT 1",nativeQuery = true)
+    Veicolo veicoloPiùCostosoVenduto();
 }

@@ -109,6 +109,9 @@ public class VeicoloService {
     public Veicolo veicoloPiuVenduto(){
         return veicoloRepository.veicoloPiuVenduto();
     }
+    public Veicolo veicoloPiuCostosoVenduto(){
+        return veicoloRepository.veicoloPiùCostosoVenduto();
+    }
 
 
 }

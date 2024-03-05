@@ -118,6 +118,12 @@ public class AmministratoreController {
     public Veicolo veicoloPiuVenduto(){
         return veicoloService.veicoloPiuVenduto();
     }
+    @Operation(summary = "Questo metodo permette di verificare il veicolo col valore più alto acquistato/ordinato")
+    @GetMapping("/statistiche/veicolo/valoreMaggioreVenduto")
+    public Veicolo veicoloPiuCostosoVenduto(){
+        return veicoloService.veicoloPiuCostosoVenduto();
+    }
+
 
     @GetMapping("/veicolo/ricercaStato")
     public List<Veicolo> findByStato(@RequestParam StatoVeicolo stato) {
