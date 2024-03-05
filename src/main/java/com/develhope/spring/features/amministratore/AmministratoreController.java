@@ -124,6 +124,13 @@ public class AmministratoreController {
         return veicoloService.veicoloPiuCostosoVenduto();
     }
 
+    @Operation(summary = "Questo metodo permette di verificare il veicolo più venduto in un determinato range di tempo")
+    @GetMapping("/statistiche/veicolo/venditeMaggiori/rangeTempo")
+    public Veicolo veicoloPiuCostosoVendutoRangeTempo(@RequestParam Date data1, @RequestParam Date data2){
+        return veicoloService.veicoloPiuVendutoRangeTempo(data1, data2);
+    }
+
+
 
     @GetMapping("/veicolo/ricercaStato")
     public List<Veicolo> findByStato(@RequestParam StatoVeicolo stato) {
