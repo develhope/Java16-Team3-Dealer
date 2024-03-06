@@ -133,9 +133,15 @@ public class AmministratoreController {
         return veicoloService.veicoloPiuVendutoRangeTempo(data1, data2);
     }
 
+    @Operation(summary = "Questo metodo permette di verificare gli incassi totali dell'autosalone in un determinato range di tempo")
     @GetMapping("/statistiche/incassi/incassiRangeTempo")
     public BigDecimal incassoTotaleRangeTempo(@RequestParam Date data1, @RequestParam Date data2){
         return incassiService.incassoTotaleRangeTempo(data1, data2);
+    }
+    @Operation(summary = "Questo metodo permette di verificare gli incassi totali di un venditore in un determinato range di tempo")
+    @GetMapping("/statistiche/incassi/venditoreRangeTempo/{venditoreId}")
+    public BigDecimal venditoreIncassiTotaliRangeTempo(@PathVariable Long venditoreId, @RequestParam Date data1, @RequestParam Date data2){
+        return incassiService.venditoreIncassiTotaliRangeTempo(venditoreId, data1, data2);
     }
 
     @GetMapping("/veicolo/ricercaStato")
