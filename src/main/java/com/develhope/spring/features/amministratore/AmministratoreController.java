@@ -1,7 +1,7 @@
 package com.develhope.spring.features.amministratore;
 
 import com.develhope.spring.features.acquirente.Acquirente;
-import com.develhope.spring.features.acquirente.AcquirenteService;
+import com.develhope.spring.features.amministratore.statisticheIncassi.IncassiService;
 import com.develhope.spring.features.noleggio.Noleggio;
 import com.develhope.spring.features.noleggio.NoleggioRichiesta;
 import com.develhope.spring.features.noleggio.NoleggioService;
@@ -24,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +45,8 @@ public class AmministratoreController {
 
     @Autowired
     private VenditoreService venditoreService;
+    @Autowired
+    private IncassiService incassiService;
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -130,7 +133,10 @@ public class AmministratoreController {
         return veicoloService.veicoloPiuVendutoRangeTempo(data1, data2);
     }
 
-
+    @GetMapping("/statistiche/incassi/incassiRangeTempo")
+    public BigDecimal incassoTotaleRangeTempo(@RequestParam Date data1, @RequestParam Date data2){
+        return incassiService.incassoTotaleRangeTempo(data1, data2);
+    }
 
     @GetMapping("/veicolo/ricercaStato")
     public List<Veicolo> findByStato(@RequestParam StatoVeicolo stato) {

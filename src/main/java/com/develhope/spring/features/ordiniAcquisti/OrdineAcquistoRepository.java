@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
@@ -25,4 +26,12 @@ public interface OrdineAcquistoRepository extends JpaRepository<OrdineAcquisto,L
             ,nativeQuery = true)
     List<OrdineAcquisto> verificaVenditeRangeTempo(@Param("venditoreId") Long venditoreId, @Param("data1") Date data1, @Param("data2") Date data2);
 
+    @Query(value = "SELECT (SUM(v.prezzo) - SUM(v.prezzo / 100 * COALESCE(v.percentuale_sconto, 0))) AS guadagnoTotale \n" +
+            "FROM  veicolo v " +
+            "JOIN ordine_acquisto oa " +
+            "ON v.veicolo_id = oa.veicolo_id " +
+            "WHERE oa.stato = 'COMPLETATO' " +
+            "AND oa.data_ordine_acquisto " +
+            "BETWEEN :data1 AND :data2 ",nativeQuery = true)
+    BigDecimal incassoTotaleOrdiniAcquisti(@Param("data1") Date data1, @Param("data2") Date data2);
 }
