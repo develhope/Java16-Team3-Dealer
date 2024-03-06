@@ -124,4 +124,5 @@ public class NoleggioService {
             return noleggioRepository.saveAndFlush(noleggio);
         }).orElse(null));
     }
+
 }

@@ -13,6 +13,7 @@ import com.develhope.spring.features.venditore.VenditoreRepository;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -198,5 +199,6 @@ public class OrdineAcquistoService {
         }
         return ordineAcquistoRepository.verificaVenditeRangeTempo(venditoreId, data1, data2);
     }
+
 
 }
