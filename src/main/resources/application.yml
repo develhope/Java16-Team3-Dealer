@@ -1,3 +1,4 @@
+environment: default
 spring:
     output:
         ansi:
@@ -15,3 +16,17 @@ spring:
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.MySQLDialect
+
+
+---
+environment: testing
+spring:
+    config:
+        activate:
+            on-profile: test
+name: test-YAML
+server:
+    port: 4000
+myCustomVarTree:
+    welcomeMsg: Hello from Test
+enabled: true
