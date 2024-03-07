@@ -46,5 +46,22 @@ public class Fixtures {
 
         return veicoloOrdinabile;
     }
+    public static Veicolo creazioneVeicoloModificaStato(){
+        Veicolo veicolo = new Veicolo();
+        veicolo.setAlimentazione("OR-alimentazioneTest");
+        veicolo.setCilindrata(10L);
+        veicolo.setStato(StatoVeicolo.NON_DISPONIBILE);
+        veicolo.setColore("OR-coloreTest");
+        veicolo.setAnnoImmatricolazione(Date.valueOf(LocalDate.of(2024,01,01)));
+        veicolo.setNuovo(true);
+        veicolo.setModello("OR-modelloTest");
+        veicolo.setOptional("OR-optionalTest");
+        veicolo.setPercentualeSconto(0);
+        veicolo.setTipoCambio("OR-cambioTest");
+        veicolo.setPotenza(10);
+        veicolo.setTipo(Tipo.AUTO);
+        veicolo.setPrezzo(BigDecimal.valueOf(10000));
+        return veicolo;
+    }
 
 }
