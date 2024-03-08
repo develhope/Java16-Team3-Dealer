@@ -71,8 +71,10 @@ public class VeicoloService {
         if (veicoloCheck.isPresent() && !(veicoloCheck.get().getStato().equals(StatoVeicolo.NON_DISPONIBILE))) {
             veicoloRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body("Veicolo Eliminato");
-        } else {
+        } else if(veicoloCheck.isPresent() && (veicoloCheck.get().getStato().equals(StatoVeicolo.NON_DISPONIBILE))){
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Veicolo Noleggiato o Acquistato");
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Veicolo non presente");
         }
     }
 

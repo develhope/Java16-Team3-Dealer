@@ -6,18 +6,22 @@ import com.develhope.spring.features.veicolo.Veicolo;
 import com.develhope.spring.features.veicolo.VeicoloRepository;
 import com.develhope.spring.features.veicolo.VeicoloService;
 import io.vavr.control.Either;
-import jdk.swing.interop.SwingInterOpUtils;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.Optional;
 
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = VeicoloServiceTest.class)
@@ -111,5 +115,27 @@ public class VeicoloServiceTest {
         when(veicoloRepository.findById(veicolo.getVeicolo_id())).thenReturn(Optional.of(veicolo));
         Either<Error,Veicolo> veicoloResponse = veicoloService.modificaVeicolo(veicolo.getVeicolo_id(), veicoloUpdate);
         assertThat(veicoloResponse).isEqualTo(Either.left(new Error(514,"veicolo non modificabile")));
+    }
+    @Test
+    void testEliminaVeicoloOK(){
+        Veicolo veicolo = Fixtures.createVeicoloOrdinabileWid();
+        when(veicoloRepository.findById(veicolo.getVeicolo_id())).thenReturn(Optional.of(veicolo));
+        ResponseEntity response = veicoloService.cancellaVeicoloId(veicolo.getVeicolo_id());
+        assertThat(response).isEqualTo(ResponseEntity.status(HttpStatus.OK).body("Veicolo Eliminato"));
+    }
+    @Test
+    void testEliminaVeicoloNonDisponibile(){
+        Veicolo veicolo = Fixtures.createVeicoloNonDisponibileWid();
+        when(veicoloRepository.findById(veicolo.getVeicolo_id())).thenReturn(Optional.of(veicolo));
+        ResponseEntity response = veicoloService.cancellaVeicoloId(veicolo.getVeicolo_id());
+        assertThat(response).isEqualTo(ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Veicolo Noleggiato o Acquistato"));
+    }
+    @Test
+    void testEliminaVeicoloNonPresente(){
+        Long notPresentId = 55L;
+        when(veicoloRepository.findById(notPresentId)).thenReturn(Optional.empty());
+        ResponseEntity response = veicoloService.cancellaVeicoloId(notPresentId);
+        assertThat(response).isEqualTo(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Veicolo non presente"));
+
     }
 }
