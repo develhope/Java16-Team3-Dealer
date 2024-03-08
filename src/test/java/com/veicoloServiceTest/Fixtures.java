@@ -63,5 +63,42 @@ public class Fixtures {
         veicolo.setPrezzo(BigDecimal.valueOf(10000));
         return veicolo;
     }
+    public static Veicolo creazioneVeicoloModificaCompleta(){
+        Veicolo veicolo = new Veicolo();
+        veicolo.setVeicolo_id(1L);
+        veicolo.setAlimentazione("MOD-alimentazioneTest");
+        veicolo.setCilindrata(10L);
+        veicolo.setStato(StatoVeicolo.ACQUISTABILE);
+        veicolo.setColore("MOD-coloreTest");
+        veicolo.setAnnoImmatricolazione(Date.valueOf(LocalDate.of(2023,01,01)));
+        veicolo.setNuovo(false);
+        veicolo.setModello("MOD-modelloTest");
+        veicolo.setOptional("MOD-optionalTest");
+        veicolo.setPercentualeSconto(0);
+        veicolo.setTipoCambio("MOD-cambioTest");
+        veicolo.setPotenza(10);
+        veicolo.setTipo(Tipo.AUTO);
+        veicolo.setPrezzo(BigDecimal.valueOf(10000));
+        return veicolo;
+    }
+    public static Veicolo createVeicoloNonDisponibileWid(){
+        Veicolo veicolo = new Veicolo();
+        veicolo.setVeicolo_id(1L);
+        veicolo.setAlimentazione("ND-alimentazioneTest");
+        veicolo.setCilindrata(10L);
+        veicolo.setStato(StatoVeicolo.NON_DISPONIBILE);
+        veicolo.setColore("ND-coloreTest");
+        veicolo.setAnnoImmatricolazione(Date.valueOf(LocalDate.of(2024,01,01)));
+        veicolo.setNuovo(true);
+        veicolo.setModello("ND-modelloTest");
+        veicolo.setOptional("ND-optionalTest");
+        veicolo.setPercentualeSconto(0);
+        veicolo.setTipoCambio("ND-cambioTest");
+        veicolo.setPotenza(10);
+        veicolo.setTipo(Tipo.AUTO);
+        veicolo.setPrezzo(BigDecimal.valueOf(10000));
+
+        return veicolo;
+    }
 
 }

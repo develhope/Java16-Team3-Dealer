@@ -1,9 +1,11 @@
 package com.veicoloServiceTest;
 
+import com.develhope.spring.features.shared.Error;
 import com.develhope.spring.features.veicolo.StatoVeicolo;
 import com.develhope.spring.features.veicolo.Veicolo;
 import com.develhope.spring.features.veicolo.VeicoloRepository;
 import com.develhope.spring.features.veicolo.VeicoloService;
+import io.vavr.control.Either;
 import jdk.swing.interop.SwingInterOpUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -69,5 +71,45 @@ public class VeicoloServiceTest {
         when(veicoloRepository.findById(notPresentId)).thenReturn(Optional.empty());
         Optional<Veicolo> veicoloResponse = veicoloService.modificaStatoVeicolo(notPresentId, veicoloUpdate.getStato());
         assertThat(veicoloResponse).isEmpty();
+    }
+    @Test
+    void testModificaVeicoloOK(){
+        Veicolo veicolo = Fixtures.createVeicoloOrdinabileWid();
+        System.out.println("VEICOLO:" + veicolo);
+        Veicolo veicoloUpdate = Fixtures.creazioneVeicoloModificaCompleta();
+        when(veicoloRepository.findById(veicolo.getVeicolo_id())).thenReturn(Optional.of(veicolo));
+        Either<Error,Veicolo> veicoloResponse = veicoloService.modificaVeicolo(veicolo.getVeicolo_id(), veicoloUpdate);
+        assertThat(veicoloResponse.get().getVeicolo_id()).isEqualTo(veicoloUpdate.getVeicolo_id());
+        assertThat(veicoloResponse.get().getAlimentazione()).isEqualTo(veicoloUpdate.getAlimentazione());
+        assertThat(veicoloResponse.get().getCilindrata()).isEqualTo(veicoloUpdate.getCilindrata());
+        assertThat(veicoloResponse.get().getStato()).isEqualTo(veicoloUpdate.getStato());
+        assertThat(veicoloResponse.get().getColore()).isEqualTo(veicoloUpdate.getColore());
+        assertThat(veicoloResponse.get().getAnnoImmatricolazione()).isEqualTo(veicoloUpdate.getAnnoImmatricolazione());
+        assertThat(veicoloResponse.get().isNuovo()).isEqualTo(veicoloUpdate.isNuovo());
+        assertThat(veicoloResponse.get().getModello()).isEqualTo(veicoloUpdate.getModello());
+        assertThat(veicoloResponse.get().getOptional()).isEqualTo(veicoloUpdate.getOptional());
+        assertThat(veicoloResponse.get().getPercentualeSconto()).isEqualTo(veicoloUpdate.getPercentualeSconto());
+        assertThat(veicoloResponse.get().getTipoCambio()).isEqualTo(veicoloUpdate.getTipoCambio());
+        assertThat(veicoloResponse.get().getPotenza()).isEqualTo(veicoloUpdate.getPotenza());
+        assertThat(veicoloResponse.get().getTipo()).isEqualTo(veicoloUpdate.getTipo());
+        assertThat(veicoloResponse.get().getPrezzo()).isEqualTo(veicoloUpdate.getPrezzo());
+        System.out.println("EXPECTED:" + veicoloUpdate);
+        System.out.println("RESPONSE:" + veicoloResponse);
+    }
+    @Test
+    void testModificaVeicoloNonPresente(){
+        Long notPresentId = 55L;
+        Veicolo veicoloUpdate = Fixtures.creazioneVeicoloModificaCompleta();
+        when(veicoloRepository.findById(notPresentId)).thenReturn(Optional.empty());
+        Either<Error,Veicolo> veicoloResponse = veicoloService.modificaVeicolo(notPresentId,veicoloUpdate);
+        assertThat(veicoloResponse).isEqualTo(Either.left(new Error(510,"veicolo non presente")));
+    }
+    @Test
+    void testModificaVeicoloNonDisponibile(){
+        Veicolo veicolo = Fixtures.createVeicoloNonDisponibileWid();
+        Veicolo veicoloUpdate = Fixtures.creazioneVeicoloModificaCompleta();
+        when(veicoloRepository.findById(veicolo.getVeicolo_id())).thenReturn(Optional.of(veicolo));
+        Either<Error,Veicolo> veicoloResponse = veicoloService.modificaVeicolo(veicolo.getVeicolo_id(), veicoloUpdate);
+        assertThat(veicoloResponse).isEqualTo(Either.left(new Error(514,"veicolo non modificabile")));
     }
 }
