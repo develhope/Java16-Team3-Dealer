@@ -86,5 +86,11 @@ public class OrdineServiceTest {
         System.out.println("ORDINE:" + ordineAcquisto);
         System.out.println("NUOVO ORDINE:" + nuovoOrdineAcquisto);
     }
-
+    @Test
+    void testCreazioneOrdineVeicoloNonPresente(){
+        OrdineAcquistoRichiesta richiesta = Fixtures.creazioneOrdineRichiestaVeicoloNonPresente();
+        when(veicoloRepository.findById(richiesta.getVeicoloId())).thenReturn(Optional.empty());
+        Either<Error,OrdineAcquisto> ordineAcquisto = ordineAcquistoService.creaOrdine(richiesta);
+        assertThat(ordineAcquisto).isEqualTo(Either.left(new Error(510, "veicolo non presente")));
+    }
 }
