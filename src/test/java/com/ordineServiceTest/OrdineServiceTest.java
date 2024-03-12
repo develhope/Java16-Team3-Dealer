@@ -55,15 +55,13 @@ public class OrdineServiceTest {
     private OrdineAcquistoService ordineAcquistoService;
 
 
-
-
     @Test
-    void testCreazioneOrdineOK(){
+    void testCreazioneOrdineOK() {
         OrdineAcquistoRichiesta richiesta = Fixtures.creazioneOrdineRichiestaVeicoloOrdinabile();
         when(veicoloRepository.findById(richiesta.getVeicoloId())).thenReturn(Optional.of(Fixtures.creazioneVeicoloOrdinabileWid()));
         when(acquirenteRepository.findById(richiesta.getAcquirenteId())).thenReturn(Optional.of(Fixtures.creazioneAcquirenteWid()));
         when(venditoreRepository.findById(richiesta.getVenditoreId())).thenReturn(Optional.of(Fixtures.creazioneVenditoreWid()));
-        Either<Error,OrdineAcquisto> ordineAcquisto = ordineAcquistoService.creaOrdine(richiesta);
+        Either<Error, OrdineAcquisto> ordineAcquisto = ordineAcquistoService.creaOrdine(richiesta);
 
         OrdineAcquisto nuovoOrdineAcquisto = new OrdineAcquisto();
         nuovoOrdineAcquisto.setVeicolo(Fixtures.creazioneVeicoloOrdinabileWid());
@@ -86,26 +84,38 @@ public class OrdineServiceTest {
         System.out.println("ORDINE:" + ordineAcquisto);
         System.out.println("NUOVO ORDINE:" + nuovoOrdineAcquisto);
     }
+
     @Test
-    void testCreazioneOrdineVeicoloNonPresente(){
+    void testCreazioneOrdineVeicoloNonPresente() {
         OrdineAcquistoRichiesta richiesta = Fixtures.creazioneOrdineRichiestaVeicoloNonPresente();
         when(veicoloRepository.findById(richiesta.getVeicoloId())).thenReturn(Optional.empty());
-        Either<Error,OrdineAcquisto> ordineAcquisto = ordineAcquistoService.creaOrdine(richiesta);
+        Either<Error, OrdineAcquisto> ordineAcquisto = ordineAcquistoService.creaOrdine(richiesta);
         assertThat(ordineAcquisto).isEqualTo(Either.left(new Error(510, "veicolo non presente")));
     }
-//    @Test
+
+    //    @Test
 //    void creazioneOrdineVeicoloNonDisponibile(){
 //        OrdineAcquistoRichiesta richiesta = Fixtures.creazioneOrdineRichiestaVeicoloNonDisponibile();
 //        when(veicoloRepository.findById(richiesta.getVeicoloId())).thenReturn(Optional.of(Fixtures.creazioneVeicoloOrdinabileWid()));
 //        Either<Error,OrdineAcquisto> ordineAcquisto = ordineAcquistoService.creaOrdine(richiesta);
 //        assertThat(ordineAcquisto).isEqualTo(Either.left(new Error(511, "veicolo non disponibile")));
 //    }
-@Test
-void testCreazioneOrdineAcquirenteNonPresente(){
-    OrdineAcquistoRichiesta richiesta = Fixtures.creazioneOrdineRichiestaAcquirenteNonPresente();
-    when(veicoloRepository.findById(richiesta.getVeicoloId())).thenReturn(Optional.of(Fixtures.creazioneVeicoloOrdinabileWid()));
-    when(acquirenteRepository.findById(richiesta.getAcquirenteId())).thenReturn(Optional.empty());
-    Either<Error,OrdineAcquisto> ordineAcquisto = ordineAcquistoService.creaOrdine(richiesta);
-    assertThat(ordineAcquisto).isEqualTo(Either.left(new Error(512, "acquirente non presente")));
-}
+    @Test
+    void testCreazioneOrdineAcquirenteNonPresente() {
+        OrdineAcquistoRichiesta richiesta = Fixtures.creazioneOrdineRichiestaAcquirenteNonPresente();
+        when(veicoloRepository.findById(richiesta.getVeicoloId())).thenReturn(Optional.of(Fixtures.creazioneVeicoloOrdinabileWid()));
+        when(acquirenteRepository.findById(richiesta.getAcquirenteId())).thenReturn(Optional.empty());
+        Either<Error, OrdineAcquisto> ordineAcquisto = ordineAcquistoService.creaOrdine(richiesta);
+        assertThat(ordineAcquisto).isEqualTo(Either.left(new Error(512, "acquirente non presente")));
+    }
+
+    @Test
+    void testCreazioneOrdineVenditoreNonPresente() {
+        OrdineAcquistoRichiesta richiesta = Fixtures.creazioneOrdineRichiestaVenditoreNonPresente();
+        when(veicoloRepository.findById(richiesta.getVeicoloId())).thenReturn(Optional.of(Fixtures.creazioneVeicoloOrdinabileWid()));
+        when(acquirenteRepository.findById(richiesta.getAcquirenteId())).thenReturn(Optional.of(Fixtures.creazioneAcquirenteWid()));
+        when(venditoreRepository.findById(richiesta.getVenditoreId())).thenReturn(Optional.empty());
+        Either<Error, OrdineAcquisto> ordineAcquisto = ordineAcquistoService.creaOrdine(richiesta);
+        assertThat(ordineAcquisto).isEqualTo(Either.left(new Error(513, "venditore non presente")));
+    }
 }
