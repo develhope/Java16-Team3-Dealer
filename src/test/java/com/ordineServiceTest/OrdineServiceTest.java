@@ -100,5 +100,12 @@ public class OrdineServiceTest {
 //        Either<Error,OrdineAcquisto> ordineAcquisto = ordineAcquistoService.creaOrdine(richiesta);
 //        assertThat(ordineAcquisto).isEqualTo(Either.left(new Error(511, "veicolo non disponibile")));
 //    }
-
+@Test
+void testCreazioneOrdineAcquirenteNonPresente(){
+    OrdineAcquistoRichiesta richiesta = Fixtures.creazioneOrdineRichiestaAcquirenteNonPresente();
+    when(veicoloRepository.findById(richiesta.getVeicoloId())).thenReturn(Optional.of(Fixtures.creazioneVeicoloOrdinabileWid()));
+    when(acquirenteRepository.findById(richiesta.getAcquirenteId())).thenReturn(Optional.empty());
+    Either<Error,OrdineAcquisto> ordineAcquisto = ordineAcquistoService.creaOrdine(richiesta);
+    assertThat(ordineAcquisto).isEqualTo(Either.left(new Error(512, "acquirente non presente")));
+}
 }
