@@ -1,6 +1,7 @@
 package com.ordineServiceTest;
 
 import com.develhope.spring.features.acquirente.Acquirente;
+import com.develhope.spring.features.noleggio.NoleggioRichiesta;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoRichiesta;
 import com.develhope.spring.features.ordiniAcquisti.StatoOrdine;
@@ -139,6 +140,15 @@ public class Fixtures {
     public static OrdineAcquistoRichiesta creazioneOrdineRichiestaVeicoloDisponibile() {
         OrdineAcquistoRichiesta richiesta = new OrdineAcquistoRichiesta();
         richiesta.setVeicoloId(creazioneVeicoloDisponibileWid().getVeicolo_id());
+        richiesta.setAcquirenteId(creazioneAcquirenteWid().getAcquirente_id());
+        richiesta.setVenditoreId(creazioneVenditoreWid().getVenditore_id());
+        richiesta.setAnticipo(BigDecimal.valueOf(1000));
+        richiesta.setPagato(false);
+        return richiesta;
+    }
+    public static OrdineAcquistoRichiesta creazioneOrdineRichiestaVeicoloNonPresente() {
+        OrdineAcquistoRichiesta richiesta = new OrdineAcquistoRichiesta();
+        richiesta.setVeicoloId(2L);
         richiesta.setAcquirenteId(creazioneAcquirenteWid().getAcquirente_id());
         richiesta.setVenditoreId(creazioneVenditoreWid().getVenditore_id());
         richiesta.setAnticipo(BigDecimal.valueOf(1000));
