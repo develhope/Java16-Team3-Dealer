@@ -2,6 +2,7 @@ package com.ordineServiceTest;
 
 import com.develhope.spring.features.acquirente.Acquirente;
 import com.develhope.spring.features.ordiniAcquisti.OrdineAcquisto;
+import com.develhope.spring.features.ordiniAcquisti.OrdineAcquistoRichiesta;
 import com.develhope.spring.features.ordiniAcquisti.StatoOrdine;
 import com.develhope.spring.features.veicolo.StatoVeicolo;
 import com.develhope.spring.features.veicolo.Tipo;
@@ -108,77 +109,58 @@ public class Fixtures {
         return venditore;
     }
 
-    public static OrdineAcquisto creazioneOrdineVeicoloOrdinabile() {
-        OrdineAcquisto ordineAcquisto = new OrdineAcquisto();
-        ordineAcquisto.setVeicolo(creazioneVeicoloOrdinabileWid());
-        ordineAcquisto.setAcquirente(creazioneAcquirenteWid());
-        ordineAcquisto.setVenditore(creazioneVenditoreWid());
-        ordineAcquisto.setAnticipo(BigDecimal.valueOf(1000));
-        ordineAcquisto.setTotale(BigDecimal.valueOf(10000));
-        ordineAcquisto.setPagato(false);
-        ordineAcquisto.setStato(StatoOrdine.IN_LAVORAZIONE);
-        ordineAcquisto.setDataOrdineAcquisto(Date.valueOf(LocalDate.now()));
-        return ordineAcquisto;
+    public static OrdineAcquistoRichiesta creazioneOrdineRichiestaVeicoloOrdinabile() {
+        OrdineAcquistoRichiesta richiesta = new OrdineAcquistoRichiesta();
+        richiesta.setVeicoloId(creazioneVeicoloOrdinabileWid().getVeicolo_id());
+        richiesta.setAcquirenteId(creazioneAcquirenteWid().getAcquirente_id());
+        richiesta.setVenditoreId(creazioneVenditoreWid().getVenditore_id());
+        richiesta.setAnticipo(BigDecimal.valueOf(1000));
+        richiesta.setPagato(false);
+        return richiesta;
     }
-    public static OrdineAcquisto creazioneOrdineVeicoloAcquistabile() {
-        OrdineAcquisto ordineAcquisto = new OrdineAcquisto();
-        ordineAcquisto.setVeicolo(creazioneVeicoloAcquistabileWid());
-        ordineAcquisto.setAcquirente(creazioneAcquirenteWid());
-        ordineAcquisto.setVenditore(creazioneVenditoreWid());
-        ordineAcquisto.setAnticipo(BigDecimal.valueOf(1000));
-        ordineAcquisto.setTotale(BigDecimal.valueOf(10000));
-        ordineAcquisto.setPagato(false);
-        ordineAcquisto.setStato(StatoOrdine.IN_LAVORAZIONE);
-        ordineAcquisto.setDataOrdineAcquisto(Date.valueOf(LocalDate.now()));
-        return ordineAcquisto;
+    public static OrdineAcquistoRichiesta creazioneOrdineRichiestaVeicoloAcquistabile() {
+        OrdineAcquistoRichiesta richiesta = new OrdineAcquistoRichiesta();
+        richiesta.setVeicoloId(creazioneVeicoloAcquistabileWid().getVeicolo_id());
+        richiesta.setAcquirenteId(creazioneAcquirenteWid().getAcquirente_id());
+        richiesta.setVenditoreId(creazioneVenditoreWid().getVenditore_id());
+        richiesta.setAnticipo(BigDecimal.valueOf(1000));
+        richiesta.setPagato(false);
+        return richiesta;
     }
-    public static OrdineAcquisto creazioneOrdineVeicoloNonDisponibile() {
-        OrdineAcquisto ordineAcquisto = new OrdineAcquisto();
-        ordineAcquisto.setVeicolo(creazioneVeicoloNonDisponibileWid());
-        ordineAcquisto.setAcquirente(creazioneAcquirenteWid());
-        ordineAcquisto.setVenditore(creazioneVenditoreWid());
-        ordineAcquisto.setAnticipo(BigDecimal.valueOf(1000));
-        ordineAcquisto.setTotale(BigDecimal.valueOf(10000));
-        ordineAcquisto.setPagato(false);
-        ordineAcquisto.setStato(StatoOrdine.IN_LAVORAZIONE);
-        ordineAcquisto.setDataOrdineAcquisto(Date.valueOf(LocalDate.now()));
-        return ordineAcquisto;
+    public static OrdineAcquistoRichiesta creazioneOrdineRichiestaVeicoloNonDisponibile() {
+        OrdineAcquistoRichiesta richiesta = new OrdineAcquistoRichiesta();
+        richiesta.setVeicoloId(creazioneVeicoloNonDisponibileWid().getVeicolo_id());
+        richiesta.setAcquirenteId(creazioneAcquirenteWid().getAcquirente_id());
+        richiesta.setVenditoreId(creazioneVenditoreWid().getVenditore_id());
+        richiesta.setAnticipo(BigDecimal.valueOf(1000));
+        richiesta.setPagato(false);
+        return richiesta;
     }
-    public static OrdineAcquisto creazioneOrdineVeicoloDisponibile() {
-        OrdineAcquisto ordineAcquisto = new OrdineAcquisto();
-        ordineAcquisto.setVeicolo(creazioneVeicoloDisponibileWid());
-        ordineAcquisto.setAcquirente(creazioneAcquirenteWid());
-        ordineAcquisto.setVenditore(creazioneVenditoreWid());
-        ordineAcquisto.setAnticipo(BigDecimal.valueOf(1000));
-        ordineAcquisto.setTotale(BigDecimal.valueOf(10000));
-        ordineAcquisto.setPagato(false);
-        ordineAcquisto.setStato(StatoOrdine.IN_LAVORAZIONE);
-        ordineAcquisto.setDataOrdineAcquisto(Date.valueOf(LocalDate.now()));
-        return ordineAcquisto;
+    public static OrdineAcquistoRichiesta creazioneOrdineRichiestaVeicoloDisponibile() {
+        OrdineAcquistoRichiesta richiesta = new OrdineAcquistoRichiesta();
+        richiesta.setVeicoloId(creazioneVeicoloDisponibileWid().getVeicolo_id());
+        richiesta.setAcquirenteId(creazioneAcquirenteWid().getAcquirente_id());
+        richiesta.setVenditoreId(creazioneVenditoreWid().getVenditore_id());
+        richiesta.setAnticipo(BigDecimal.valueOf(1000));
+        richiesta.setPagato(false);
+        return richiesta;
     }
-    public static OrdineAcquisto creazioneOrdineAcquirenteNonPresente() {
-        OrdineAcquisto ordineAcquisto = new OrdineAcquisto();
-        ordineAcquisto.setVeicolo(creazioneVeicoloDisponibileWid());
-        ordineAcquisto.setAcquirente(new Acquirente());
-        ordineAcquisto.setVenditore(creazioneVenditoreWid());
-        ordineAcquisto.setAnticipo(BigDecimal.valueOf(1000));
-        ordineAcquisto.setTotale(BigDecimal.valueOf(10000));
-        ordineAcquisto.setPagato(false);
-        ordineAcquisto.setStato(StatoOrdine.IN_LAVORAZIONE);
-        ordineAcquisto.setDataOrdineAcquisto(Date.valueOf(LocalDate.now()));
-        return ordineAcquisto;
+    public static OrdineAcquistoRichiesta creazioneOrdineRichiestaAcquirenteNonPresente() {
+        OrdineAcquistoRichiesta richiesta = new OrdineAcquistoRichiesta();
+        richiesta.setVeicoloId(creazioneVeicoloDisponibileWid().getVeicolo_id());
+        richiesta.setAcquirenteId(2L);
+        richiesta.setVenditoreId(creazioneVenditoreWid().getVenditore_id());
+        richiesta.setAnticipo(BigDecimal.valueOf(1000));
+        richiesta.setPagato(false);
+        return richiesta;
     }
-    public static OrdineAcquisto creazioneOrdineVenditoreNonPresente() {
-        OrdineAcquisto ordineAcquisto = new OrdineAcquisto();
-        ordineAcquisto.setVeicolo(creazioneVeicoloDisponibileWid());
-        ordineAcquisto.setAcquirente(creazioneAcquirenteWid());
-        ordineAcquisto.setVenditore(new Venditore());
-        ordineAcquisto.setAnticipo(BigDecimal.valueOf(1000));
-        ordineAcquisto.setTotale(BigDecimal.valueOf(10000));
-        ordineAcquisto.setPagato(false);
-        ordineAcquisto.setStato(StatoOrdine.IN_LAVORAZIONE);
-        ordineAcquisto.setDataOrdineAcquisto(Date.valueOf(LocalDate.now()));
-        return ordineAcquisto;
+    public static OrdineAcquistoRichiesta creazioneOrdineRichiestaVenditoreNonPresente() {
+        OrdineAcquistoRichiesta richiesta = new OrdineAcquistoRichiesta();
+        richiesta.setVeicoloId(2L);
+        richiesta.setAcquirenteId(creazioneAcquirenteWid().getAcquirente_id());
+        richiesta.setVenditoreId(creazioneVenditoreWid().getVenditore_id());
+        richiesta.setAnticipo(BigDecimal.valueOf(1000));
+        richiesta.setPagato(false);
+        return richiesta;
     }
-
 }
